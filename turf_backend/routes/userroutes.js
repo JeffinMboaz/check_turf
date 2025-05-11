@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const authenticateToken = require('../middleware/middleware');
-const upload=require('../middleware/upload')
+// const upload=require('../middleware/upload')
 const authorizeRole = require('../middleware/authorizeRole')
 const { registerAs, login, logout, getUserProfile, updateUserProfile } = require('../controllers/userauth');
 const { addTurfWithEvents, addEventsToTurf, getEventsByTurf,
@@ -16,6 +16,8 @@ const { getTurfsByAdmin, deleteUser, getAllUsers, updateUserByAdmin, createUserB
   updateManager, deleteManagers, getAllManagers, getAllBookings, AdmincancelBooking } = require('../controllers/adminController');
 
 
+const { turfUpload, eventUpload } = require('../middleware/upload');
+
 
 // Registration route for user,manager,admin
 router.post('/registeras', registerAs);
@@ -28,15 +30,32 @@ router.put('/updateprofile', authenticateToken, updateUserProfile)//updateprofil
 // 
 // router.post('/addevent/', authenticateToken, addEventsToTurf);//addevents to existing turf
 
-router.post(
-  '/addturf',
-  authenticateToken,
-  authorizeRole('Admin', 'Manager'),
-  upload, // uses upload.fields([{ name: 'heroimg' }, { name: 'eventimgs' }])
-  addTurfWithEvents
-);
+// router.post(
+//   '/addturf',
+//   authenticateToken,
+//   authorizeRole('Admin', 'Manager'),
+//   upload, // uses upload.fields([{ name: 'heroimg' }, { name: 'eventimgs' }])
+//   addTurfWithEvents
+// );
 
-router.post('/addevent/:turfId', authenticateToken, addEventsToTurf);//addevents to existing turf
+
+
+
+
+
+
+router.post('/addturf', authenticateToken, authorizeRole('Admin', 'Manager'), turfUpload, addTurfWithEvents);
+
+router.post('/addevent/:turfId', authenticateToken, eventUpload, addEventsToTurf);
+
+
+
+
+
+
+
+
+// router.post('/addevent/:turfId', authenticateToken, addEventsToTurf);//addevents to existing turf
 
 router.get('/getevents/:turfId', authenticateToken, getEventsByTurf);//get events of turf
 router.get('/allturf', authenticateToken, getAllTurfs);//getall turf

@@ -106,44 +106,85 @@ const addTurfWithEvents = async (req, res) => {
 
 
 
+// const addEventsToTurf = async (req, res) => {
+//   try {
+//     const { turfId, name, type, price, img } = req.body;
+
+//     // Validate required fields
+//     if (!turfId || !name || !type || !price || !img) {
+//       return res.status(400).json({ message: "All fields are required." });
+//     }
+
+//     // Check if turf exists
+//     const turf = await Turf.findById(turfId);
+//     if (!turf) {
+//       return res.status(404).json({ message: "Turf not found" });
+//     }
+
+//     // Check if event record already exists for the turf
+//     let turfEvent = await TurfEvents.findOne({ turf: turfId });
+
+//     const newEvent = { name, type, price, img };
+
+//     if (turfEvent) {
+//       // Add new event to existing document
+//       turfEvent.events.push(newEvent);
+//       await turfEvent.save();
+//     } else {
+//       // Create a new Turfevent document
+//       turfEvent = new TurfEvents({
+//         turf: turfId,
+//         events: [newEvent]
+//       });
+//       await turfEvent.save();
+//     }
+
+//     return res.status(201).json({
+//       message: "Event added successfully",
+//       turfEvent
+//     });
+
+//   } catch (error) {
+//     console.error("Error adding event:", error);
+//     return res.status(500).json({ message: "Server error" });
+//   }
+// };
+
+
+
+
+
+
+
+
+//get all event of one turf
+
+
 const addEventsToTurf = async (req, res) => {
   try {
-    const { turfId, name, type, price, img } = req.body;
+    const { turfId, name, type, price } = req.body;
+    const img = req.file ? `/uploads/events/${req.file.filename}` : null;
 
-    // Validate required fields
     if (!turfId || !name || !type || !price || !img) {
       return res.status(400).json({ message: "All fields are required." });
     }
 
-    // Check if turf exists
     const turf = await Turf.findById(turfId);
-    if (!turf) {
-      return res.status(404).json({ message: "Turf not found" });
-    }
+    if (!turf) return res.status(404).json({ message: "Turf not found" });
 
-    // Check if event record already exists for the turf
     let turfEvent = await TurfEvents.findOne({ turf: turfId });
 
     const newEvent = { name, type, price, img };
 
     if (turfEvent) {
-      // Add new event to existing document
       turfEvent.events.push(newEvent);
       await turfEvent.save();
     } else {
-      // Create a new Turfevent document
-      turfEvent = new TurfEvents({
-        turf: turfId,
-        events: [newEvent]
-      });
+      turfEvent = new TurfEvents({ turf: turfId, events: [newEvent] });
       await turfEvent.save();
     }
 
-    return res.status(201).json({
-      message: "Event added successfully",
-      turfEvent
-    });
-
+    return res.status(201).json({ message: "Event added successfully", turfEvent });
   } catch (error) {
     console.error("Error adding event:", error);
     return res.status(500).json({ message: "Server error" });
@@ -157,7 +198,10 @@ const addEventsToTurf = async (req, res) => {
 
 
 
-//get all event of one turf
+
+
+
+
 const getEventsByTurf = async (req, res) => {
   try {
     const { turfId } = req.params;

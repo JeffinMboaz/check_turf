@@ -44,22 +44,45 @@ function ManagerDashboard() {
     }
   };
 
-  const handleAddEvent = async (data) => {
-    try {
-      const token = localStorage.getItem("token");
-      await axios.post(
-        "http://localhost:5006/api/auth/addevent",
-        data,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      toast.success("Event added successfully!");
-    } catch (error) {
-      toast.error("Failed to add event");
-      console.error(error);
-    }
-  };
+  // const handleAddEvent = async (data) => {
+  //   try {
+  //     const token = localStorage.getItem("token");
+  //     await axios.post(
+  //       "http://localhost:5006/api/auth/addevent",
+  //       data,
+  //       {
+  //         headers: { Authorization: `Bearer ${token}` },
+  //       }
+  //     );
+  //     toast.success("Event added successfully!");
+  //   } catch (error) {
+  //     toast.error("Failed to add event");
+  //     console.error(error);
+  //   }
+  // };
+
+const handleAddEvent = async (formData) => {
+  try {
+    const token = localStorage.getItem("token");
+    await axios.post(
+      `http://localhost:5006/api/auth/addevent/${formData.get('turfId')}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data'
+        },
+      }
+    );
+    toast.success("Event added successfully!");
+    fetchTurfs();
+  } catch (error) {
+    toast.error("Failed to add event");
+    console.error(error);
+  }
+};
+
+
 
   const handleEditTurf = async (turfId, updateData) => {
     try {
