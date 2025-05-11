@@ -191,17 +191,6 @@ const addEventsToTurf = async (req, res) => {
   }
 };
 
-
-
-
-
-
-
-
-
-
-
-
 const getEventsByTurf = async (req, res) => {
   try {
     const { turfId } = req.params;
@@ -263,34 +252,134 @@ const updateTurfEvent = async (req, res) => {
   }
 };
 
+// const updateTurf = async (req, res) => {
+//   try {
+//     const { turfId } = req.params;
+//     const updates = req.body;
+
+//     // Validate turfId
+//     if (!mongoose.Types.ObjectId.isValid(turfId)) {
+//       return res.status(400).json({ message: "Invalid Turf ID" });
+//     }
+
+//     // Update the turf
+//     const updatedTurf = await Turf.findByIdAndUpdate(turfId, updates, { new: true });
+
+//     if (!updatedTurf) {
+//       return res.status(404).json({ message: "Turf not found" });
+//     }
+
+//     res.status(200).json({
+//       message: "Turf updated successfully",
+//       turf: updatedTurf
+//     });
+//   } catch (error) {
+//     console.error("Error updating turf:", error.message);
+//     res.status(500).json({ message: "Server error", error: error.message });
+//   }
+// };
+
+//delete one event of turf
+
+// const updateTurf = async (req, res) => {
+//   try {
+//     const { turfId } = req.params;
+//     if (!mongoose.Types.ObjectId.isValid(turfId)) {
+//       return res.status(400).json({ message: "Invalid Turf ID" });
+//     }
+
+//     const updates = {
+//       turfname: req.body.turfname,
+//       address: req.body.address,
+//       court: req.body.court,
+//       price: req.body.price,
+//       availability: req.body.availability === 'true',
+//     };
+
+//     if (req.body.coordinates) {
+//       updates.location = { type: 'Point', coordinates: JSON.parse(req.body.coordinates) };
+//     }
+
+//     if (req.files?.heroimg?.[0]) {
+//       updates.heroimg = `/uploads/turfs/${req.files.heroimg[0].filename}`;
+//     }
+
+//     const updatedTurf = await Turf.findByIdAndUpdate(turfId, updates, { new: true });
+
+//     if (!updatedTurf) {
+//       return res.status(404).json({ message: "Turf not found" });
+//     }
+
+//     res.status(200).json({ message: "Turf updated successfully", turf: updatedTurf });
+//   } catch (error) {
+//     console.error("Error updating turf:", error.message);
+//     res.status(500).json({ message: "Server error", error: error.message });
+//   }
+// };
+
+
+
+// const getCoordinatesFromAddress = async (address) => {
+//   const apiKey = process.env.GEOCODING_API_KEY;
+//   const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(address)}&key=${apiKey}`;
+//   const response = await fetch(url);
+//   const data = await response.json();
+//   if (data.results.length > 0) {
+//     const { lat, lng } = data.results[0].geometry;
+//     return [lng, lat];
+//   }
+//   throw new Error('Unable to geocode address');
+// };
+
+
 const updateTurf = async (req, res) => {
   try {
     const { turfId } = req.params;
-    const updates = req.body;
-
-    // Validate turfId
     if (!mongoose.Types.ObjectId.isValid(turfId)) {
       return res.status(400).json({ message: "Invalid Turf ID" });
     }
 
-    // Update the turf
+    const updates = {
+      turfname: req.body.turfname,
+      address: req.body.address,
+      court: req.body.court,
+      price: req.body.price,
+      availability: req.body.availability === 'true',
+    };
+
+    // Use provided coordinates, or geocode if missing
+    if (req.body.coordinates) {
+      updates.location = {
+        type: 'Point',
+        coordinates: JSON.parse(req.body.coordinates),
+      };
+    } else if (req.body.address) {
+      const coords = await getCoordinatesFromAddress(req.body.address);
+      updates.location = {
+        type: 'Point',
+        coordinates: coords,
+      };
+    }
+
+    if (req.files?.heroimg?.[0]) {
+      updates.heroimg = `/uploads/turfs/${req.files.heroimg[0].filename}`;
+    }
+
     const updatedTurf = await Turf.findByIdAndUpdate(turfId, updates, { new: true });
 
     if (!updatedTurf) {
       return res.status(404).json({ message: "Turf not found" });
     }
 
-    res.status(200).json({
-      message: "Turf updated successfully",
-      turf: updatedTurf
-    });
+    res.status(200).json({ message: "Turf updated successfully", turf: updatedTurf });
   } catch (error) {
     console.error("Error updating turf:", error.message);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
-//delete one event of turf
+
+
 const deleteTurfEvent = async (req, res) => {
   try {
     const { turfId, eventId } = req.params;

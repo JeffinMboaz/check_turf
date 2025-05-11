@@ -38,29 +38,22 @@ router.put('/updateprofile', authenticateToken, updateUserProfile)//updateprofil
 //   addTurfWithEvents
 // );
 
-
-
-
-
-
-
 router.post('/addturf', authenticateToken, authorizeRole('Admin', 'Manager'), turfUpload, addTurfWithEvents);
 
 router.post('/addevent/:turfId', authenticateToken, eventUpload, addEventsToTurf);
-
-
-
-
-
-
-
 
 // router.post('/addevent/:turfId', authenticateToken, addEventsToTurf);//addevents to existing turf
 
 router.get('/getevents/:turfId', authenticateToken, getEventsByTurf);//get events of turf
 router.get('/allturf', authenticateToken, getAllTurfs);//getall turf
 router.patch('/upturf-event/:turfId/:eventId', authenticateToken, updateTurfEvent);//update turf and events
-router.patch('/upturf/:turfId', authenticateToken, updateTurf);//update turf 
+
+
+// router.patch('/upturf/:turfId', authenticateToken, updateTurf);//update turf 
+
+router.patch('/upturf/:turfId', authenticateToken, turfUpload, updateTurf);
+
+
 router.delete("/delturfevent/:turfId/:eventId", authenticateToken, deleteTurfEvent);//delete an event 
 router.delete("/delturf/:turfId", authenticateToken, deleteTurfAndEvents);//delete a turf and all events
 
