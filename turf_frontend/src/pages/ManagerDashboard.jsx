@@ -73,7 +73,7 @@ const handleAddEvent = async (formData) => {
           'Content-Type': 'multipart/form-data'
         },
       }
-    );
+    ); 
     toast.success("Event added successfully!");
     fetchTurfs();
   } catch (error) {

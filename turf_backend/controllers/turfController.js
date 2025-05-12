@@ -218,17 +218,52 @@ const getEventsByTurf = async (req, res) => {
 };
 
 //update event of turf
+
+// const updateTurfEvent = async (req, res) => {
+//   try {
+//     const { turfId, eventId } = req.params;
+//     const { name, type, price, img } = req.body;
+
+//     if (!mongoose.Types.ObjectId.isValid(turfId) || !mongoose.Types.ObjectId.isValid(eventId)) {
+//       return res.status(400).json({ message: "Invalid Turf or Event ID" });
+//     }
+
+//     const turfEventDoc = await TurfEvents.findOne({ turf: turfId });
+
+//     if (!turfEventDoc) {
+//       return res.status(404).json({ message: "Turfevent not found" });
+//     }
+
+//     const eventToUpdate = turfEventDoc.events.id(eventId);
+//     if (!eventToUpdate) {
+//       return res.status(404).json({ message: "Event not found" });
+//     }
+
+//     if (name) eventToUpdate.name = name;
+//     if (type) eventToUpdate.type = type;
+//     if (price) eventToUpdate.price = price;
+//     if (img) eventToUpdate.img = img;
+
+//     await turfEventDoc.save();
+
+//     return res.status(200).json({ message: "Turf event updated successfully", event: eventToUpdate });
+//   } catch (error) {
+//     console.error("Error updating turf event:", error.message);
+//     return res.status(500).json({ message: "Server error", error: error.message });
+//   }
+// };
+
 const updateTurfEvent = async (req, res) => {
   try {
     const { turfId, eventId } = req.params;
-    const { name, type, price, img } = req.body;
+    const { name, type, price } = req.body;
+    const img = req.file ? `/uploads/events/${req.file.filename}` : undefined;
 
     if (!mongoose.Types.ObjectId.isValid(turfId) || !mongoose.Types.ObjectId.isValid(eventId)) {
       return res.status(400).json({ message: "Invalid Turf or Event ID" });
     }
 
     const turfEventDoc = await TurfEvents.findOne({ turf: turfId });
-
     if (!turfEventDoc) {
       return res.status(404).json({ message: "Turfevent not found" });
     }
@@ -251,6 +286,7 @@ const updateTurfEvent = async (req, res) => {
     return res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
 
 // const updateTurf = async (req, res) => {
 //   try {

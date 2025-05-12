@@ -54,36 +54,75 @@ const UpdateEvent = ({ show, handleClose, turfOptions, fetchTurfs }) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  // const handleSubmit = async () => {
+  //   const payload = {
+  //     name: formData.name,
+  //     type: formData.type,
+  //     price: formData.price,
+  //     img: formData.img
+  //   };
+  //   try {
+  //     const token = localStorage.getItem("token");
+  //     await axios.patch(
+  //       `http://localhost:5006/api/auth/upturf-event/${formData.turfId}/${formData.eventId}`,
+  //       payload,
+  //       { headers: { Authorization: `Bearer ${token}` } }
+  //     );
+  //     toast.success("Event updated successfully!");
+  //     setFormData({
+  //       turfId: '',
+  //       eventId: '',
+  //       name: '',
+  //       type: '',
+  //       price: '',
+  //       img: ''
+  //     });
+  //     handleClose();
+  //     fetchTurfs(); // Optional: Refresh turf list
+  //   } catch (err) {
+  //     toast.error("Failed to update event");
+  //     console.error("Update error:", err.response?.data || err.message);
+  //   }
+  // };
+
   const handleSubmit = async () => {
-    const payload = {
-      name: formData.name,
-      type: formData.type,
-      price: formData.price,
-      img: formData.img
-    };
-    try {
-      const token = localStorage.getItem("token");
-      await axios.patch(
-        `http://localhost:5006/api/auth/upturf-event/${formData.turfId}/${formData.eventId}`,
-        payload,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      toast.success("Event updated successfully!");
-      setFormData({
-        turfId: '',
-        eventId: '',
-        name: '',
-        type: '',
-        price: '',
-        img: ''
-      });
-      handleClose();
-      fetchTurfs(); // Optional: Refresh turf list
-    } catch (err) {
-      toast.error("Failed to update event");
-      console.error("Update error:", err.response?.data || err.message);
+  try {
+    const token = localStorage.getItem("token");
+    const payload = new FormData();
+    payload.append("name", formData.name);
+    payload.append("type", formData.type);
+    payload.append("price", formData.price);
+    if (formData.img) {
+      payload.append("img", formData.img);
     }
-  };
+
+    await axios.patch(
+      `http://localhost:5006/api/auth/upturf-event/${formData.turfId}/${formData.eventId}`,
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+    );
+
+    toast.success("Event updated successfully!");
+    setFormData({
+      turfId: '',
+      eventId: '',
+      name: '',
+      type: '',
+      price: '',
+      img: ''
+    });
+    handleClose();
+    fetchTurfs();
+  } catch (err) {
+    toast.error("Failed to update event");
+    console.error("Update error:", err.response?.data || err.message);
+  }
+};
 
   return (
     <Modal show={show} onHide={handleClose} centered>
@@ -142,7 +181,7 @@ const UpdateEvent = ({ show, handleClose, turfOptions, fetchTurfs }) => {
             />
           </Form.Group>
 
-          <Form.Group className="mb-3">
+          {/* <Form.Group className="mb-3">
             <Form.Label>Image URL / Filename</Form.Label>
             <Form.Control
               type="text"
@@ -150,7 +189,17 @@ const UpdateEvent = ({ show, handleClose, turfOptions, fetchTurfs }) => {
               value={formData.img}
               onChange={handleChange}
             />
-          </Form.Group>
+          </Form.Group> */}
+          <Form.Group className="mb-3">
+  <Form.Label>Upload Event Image</Form.Label>
+  <Form.Control
+    type="file"
+    name="img"
+    accept="image/*"
+    onChange={(e) => setFormData(prev => ({ ...prev, img: e.target.files[0] }))}
+  />
+</Form.Group>
+
         </Form>
       </Modal.Body>
 
