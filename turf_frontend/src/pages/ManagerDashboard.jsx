@@ -153,7 +153,7 @@ const handleAddEvent = async (formData) => {
         <Row className="g-2 justify-content-center mb-4">
           <Col xs={12} sm={6} md="auto">
             <OverlayTrigger placement="bottom" overlay={<Tooltip>Add new turf</Tooltip>}>
-              <Button className="bg-warning text-dark w-100" onClick={() => setShowAddTurfModal(true)}>
+              <Button className="bg-dark text-white w-100" onClick={() => setShowAddTurfModal(true)}>
                 <IoMdAdd size={20} className="me-1" /> New Turf
               </Button>
             </OverlayTrigger>

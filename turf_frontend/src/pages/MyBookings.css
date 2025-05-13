@@ -1,0 +1,19 @@
+@media screen and (max-width: 768px) {
+  .table td,
+  .table th {
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .table td,
+  .table th {
+    font-size: 0.8rem;
+  }
+}
+
+.container {
+  padding-left: 15px;
+  padding-right: 15px;
+}

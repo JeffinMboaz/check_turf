@@ -160,8 +160,8 @@ function ManageTurf() {
             console.error("Delete failed", err);
         }
     };
-    
-    
+
+
     const handleAddEvent = async () => {
         if (!editTurfData?._id) {
             alert("Select a turf first.");
@@ -202,13 +202,18 @@ function ManageTurf() {
     return (
         <>
             <TNavbar />
-            <div className='container my-5 min-vh-100'>
+            {/* <div className='container my-5 min-vh-100'>
+             */}
+            <div className='container-fluid my-5 min-vh-100 px-3 px-md-5'>
+
                 <Button className='btn btn-success mx-2' onClick={() => setShowAddModal(true)}>New turf</Button>
 
                 <h3 className='mb-4 border-bottom'>Manage Turf Events</h3>
 
 
-                <div className='mb-4 w-25 d-flex align-items-center'>
+                {/* <div className='mb-4 w-25 d-flex align-items-center'> */}
+                <div className='mb-4 col-12 col-sm-6 col-md-4 d-flex align-items-center'>
+
                     <select className='form-select' value={selectedTurf} onChange={(e) => handleTurfSelect(e.target.value)}>
                         <option value="">Select Turf</option>
                         {turfs.map(turf => (
@@ -233,13 +238,20 @@ function ManageTurf() {
                         <h5 className='text-capitalize'>{turfDetails.turfname}</h5>
                         <p>Address : {turfDetails.address}</p>
                         <p>Price : {turfDetails.price}-/per hour</p>
-                        <img src={`http://localhost:5006${turfDetails.heroimg}`} alt="Turf" style={{ width: '200px', height: 'auto' }} />
+                        {/* 
+                        <img src={`http://localhost:5006${turfDetails.heroimg}`} alt="Turf" style={{ width: '200px', height: 'auto' }} /> */}
+                        <img src={`http://localhost:5006${turfDetails.heroimg}`} alt="Turf" className="img-fluid rounded shadow-sm" />
+
                     </div>
                 )}
 
-                <div className='row'>
+                {/* <div className='row'>
                     {events.map(event => (
-                        <div className='col-md-4 mb-3' key={event._id}>
+                        <div className='col-md-4 mb-3' key={event._id}> */}
+                <div className='row g-3'>
+                    {events.map(event => (
+                        <div className='col-12 col-sm-6 col-lg-4' key={event._id}>
+
                             <div className='card h-100'>
                                 <img src={`http://localhost:5006${event.img}`} className='card-img-top' alt={event.name} />
                                 <div className='card-body'>
@@ -271,7 +283,8 @@ function ManageTurf() {
 
                     {editTurfData && (
 
-                        <Form>
+                        // <Form>
+                        <Form className="p-3 border rounded bg-light">
 
                             <Form.Group className="mb-3">
                                 <Form.Label>Turf Name</Form.Label>
@@ -374,7 +387,7 @@ function ManageTurf() {
                                 onChange={(e) => setEditEventData({ ...editEventData, price: e.target.value })}
                             />
                         </Form.Group>
-                       
+
 
                         <Form.Group className="mb-3">
                             <Form.Label>Upload Hero Image</Form.Label>
@@ -422,7 +435,7 @@ function ManageTurf() {
                             />
                         </Form.Group>
 
-                      
+
                         <Form.Group className="mb-3">
                             <Form.Label>Hero Image</Form.Label>
                             <Form.Control
@@ -496,7 +509,7 @@ function ManageTurf() {
                                     }}
                                     className="mb-2"
                                 />
-                               
+
                                 <Form.Control
                                     type="file"
                                     accept="image/*"
@@ -521,7 +534,7 @@ function ManageTurf() {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowAddModal(false)}>Cancel</Button>
-                   
+
                     <Button variant="success" onClick={async () => {
                         try {
                             const formData = new FormData();
@@ -594,7 +607,7 @@ function ManageTurf() {
                                 onChange={(e) => setNewEventData({ ...newEventData, price: e.target.value })}
                             />
                         </Form.Group>
-                       
+
                         <Form.Group className="mb-3">
                             <Form.Label>Upload Event Image</Form.Label>
                             <Form.Control

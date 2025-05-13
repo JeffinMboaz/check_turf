@@ -11,7 +11,7 @@ import Col from "react-bootstrap/Col";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import TNavbar from "../components/TNavbar";
-
+import Footer from "../components/Footer"
 function BookTurf() {
   const { id } = useParams(); // turf ID
   const [turfEvent, setTurfEvent] = useState(null);
@@ -311,6 +311,7 @@ function BookTurf() {
           </Button>
         </Modal.Footer>
       </Modal>
+      <Footer/>
     </>
   );
 }

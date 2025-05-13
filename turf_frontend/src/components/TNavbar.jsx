@@ -24,6 +24,8 @@ function TNavbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const { darkMode, toggleTheme } = useTheme();
+  const [searchInput, setSearchInput] = useState("");
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
@@ -181,7 +183,7 @@ function TNavbar() {
                 required
               />
             </FloatingLabel>
-            <Button variant="success" className="mt-3 w-100" type="submit">
+            <Button variant="success" className="mt-2 w-100" type="submit">
               Register
             </Button>
           </Form>
@@ -193,7 +195,7 @@ function TNavbar() {
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Sign In</Offcanvas.Title>
         </Offcanvas.Header>
-        <Offcanvas.Body>
+        <Offcanvas.Body className="mx-4 mt-5">
           <Form onSubmit={handleLogin}>
             <FloatingLabel label="Email address" className="mb-3">
               <Form.Control
@@ -218,7 +220,7 @@ function TNavbar() {
               />
             </FloatingLabel>
             <Button
-              variant="outline-success"
+              variant="success"
               className="mt-3 w-100"
               type="submit"
             >
@@ -253,8 +255,8 @@ function TNavbar() {
                 <>
                   {userRole === "user" && (
                     <>
-                      <Form className="d-flex ">
-                        <InputGroup className="rounded-pill overflow-hidden">
+                      {/* <Form className="d-flex ">
+                        <InputGroup className="rounded-pill overflow-hidden mt-2">
                           <Form.Control
                             type="search"
                             placeholder="Search"
@@ -270,7 +272,38 @@ function TNavbar() {
                             <IoSearch size={20} />
                           </Button>
                         </InputGroup>
-                      </Form>
+                      </Form> */}
+                      <Form
+  className="d-flex"
+  onSubmit={(e) => {
+    e.preventDefault();
+    if (searchInput.trim() !== "") {
+      // navigate(`/search?turfname=${encodeURIComponent(searchInput.trim())}`);
+      navigate(`/search?turfname=${encodeURIComponent(searchInput.trim())}`);
+
+    }
+  }}
+>
+  <InputGroup className="rounded-pill overflow-hidden mt-2">
+    <Form.Control
+      type="search"
+      placeholder="Search"
+      aria-label="Search"
+      className="border-0"
+      value={searchInput}
+      onChange={(e) => setSearchInput(e.target.value)}
+      style={{ borderRadius: "50px 0 0 50px" }}
+    />
+    <Button
+      className="bg-white text-dark border-0"
+      type="submit"
+      style={{ borderRadius: "0 50px 50px 0" }}
+    >
+      <IoSearch size={20} />
+    </Button>
+  </InputGroup>
+</Form>
+
                       <Nav.Link href="/mybooking">My Bookings</Nav.Link>
                       <Nav.Link href="/reviewrate">Review & Rate</Nav.Link>
                       <OverlayTrigger
@@ -310,10 +343,10 @@ function TNavbar() {
                 </>
               ) : (
                 <>
-                  <Nav.Link href="#about">About</Nav.Link>
+                  <Nav.Link href="/about">About</Nav.Link>
                   <Nav.Link onClick={handleShowSignUp}>Sign Up</Nav.Link>
                   <Nav.Link onClick={handleShowSignIn}>Sign In</Nav.Link>
-                  <Button variant="outline-light" onClick={toggleTheme}>
+                  <Button variant="outline-light rounded-pill" onClick={toggleTheme}>
                     {darkMode ? "Light Mode" : "Dark Mode"}
                   </Button>
                 </>

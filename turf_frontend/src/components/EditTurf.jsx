@@ -193,8 +193,141 @@
 // export default EditTurf;
 
 
+// import React, { useState, useEffect } from 'react';
+// import { Modal, Button, Form } from 'react-bootstrap';
+
+// const EditTurf = ({ show, handleClose, turfOptions, onSubmit }) => {
+//   const [formData, setFormData] = useState({
+//     turfId: '',
+//     turfname: '',
+//     address: '',
+//     heroimg: null,
+//     court: '',
+//     price: '',
+//     availability: true,
+//   });
+
+//   useEffect(() => {
+//     if (formData.turfId) {
+//       const selectedTurf = turfOptions.find(turf => turf._id === formData.turfId);
+//       if (selectedTurf) {
+//         setFormData({
+//           turfId: selectedTurf._id,
+//           turfname: selectedTurf.turfname || '',
+//           address: selectedTurf.address || '',
+//           heroimg: null, // Reset to null for new upload
+//           court: selectedTurf.court || '',
+//           price: selectedTurf.price || '',
+//           availability: selectedTurf.availability ?? true,
+//         });
+//       }
+//     }
+//   }, [formData.turfId, turfOptions]);
+
+//   const handleChange = (e) => {
+//     const { name, value, type, checked, files } = e.target;
+//     if (name === 'heroimg') {
+//       setFormData({ ...formData, heroimg: files[0] });
+//     } else {
+//       setFormData({
+//         ...formData,
+//         [name]: type === 'checkbox' ? checked : value,
+//       });
+//     }
+//   };
+
+//   const handleSubmit = async () => {
+//     try {
+//       const data = new FormData();
+//       data.append('turfname', formData.turfname);
+//       data.append('address', formData.address);
+//       data.append('court', formData.court);
+//       data.append('price', formData.price);
+//       data.append('availability', formData.availability);
+//       if (formData.heroimg) data.append('heroimg', formData.heroimg);
+
+//       onSubmit(formData.turfId, data);
+
+//       // Reset form and close modal
+//       setFormData({
+//         turfId: '',
+//         turfname: '',
+//         address: '',
+//         heroimg: null,
+//         court: '',
+//         price: '',
+//         availability: true,
+//       });
+//       handleClose();
+//     } catch (error) {
+//       console.error("Error submitting form:", error);
+//     }
+//   };
+
+//   return (
+//     <Modal show={show} onHide={handleClose} centered>
+//       <Modal.Header closeButton>
+//         <Modal.Title>Edit Turf</Modal.Title>
+//       </Modal.Header>
+//       <Modal.Body>
+//         <Form>
+//           <Form.Group className="mb-3">
+//             <Form.Label>Select Turf</Form.Label>
+//             <Form.Select name="turfId" onChange={handleChange} value={formData.turfId}>
+//               <option value="">Select Turf</option>
+//               {turfOptions.map(turf => (
+//                 <option key={turf._id} value={turf._id}>{turf.turfname}</option>
+//               ))}
+//             </Form.Select>
+//           </Form.Group>
+
+//           <Form.Group className="mb-3">
+//             <Form.Label>Turf Name</Form.Label>
+//             <Form.Control type="text" name="turfname" value={formData.turfname} onChange={handleChange} />
+//           </Form.Group>
+
+//           <Form.Group className="mb-3">
+//             <Form.Label>Address</Form.Label>
+//             <Form.Control type="text" name="address" value={formData.address} onChange={handleChange} />
+//           </Form.Group>
+
+//           <Form.Group className="mb-3">
+//             <Form.Label>Turf Image</Form.Label>
+//             <Form.Control type="file" name="heroimg" accept="image/*" onChange={handleChange} />
+//           </Form.Group>
+
+//           <Form.Group className="mb-3">
+//             <Form.Label>Court Type</Form.Label>
+//             <Form.Control type="text" name="court" value={formData.court} onChange={handleChange} />
+//           </Form.Group>
+
+//           <Form.Group className="mb-3">
+//             <Form.Label>Price</Form.Label>
+//             <Form.Control type="number" name="price" value={formData.price} onChange={handleChange} />
+//           </Form.Group>
+
+//           <Form.Group className="mb-3">
+//             <Form.Check
+//               type="checkbox"
+//               label="Available"
+//               name="availability"
+//               checked={formData.availability}
+//               onChange={handleChange}
+//             />
+//           </Form.Group>
+//         </Form>
+//       </Modal.Body>
+//       <Modal.Footer>
+//         <Button variant="secondary" onClick={handleClose}>Cancel</Button>
+//         <Button variant="dark" onClick={handleSubmit}>Update Turf</Button>
+//       </Modal.Footer>
+//     </Modal>
+//   );
+// };
+
+// export default EditTurf;
 import React, { useState, useEffect } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
+import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 
 const EditTurf = ({ show, handleClose, turfOptions, onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -207,65 +340,74 @@ const EditTurf = ({ show, handleClose, turfOptions, onSubmit }) => {
     availability: true,
   });
 
+  const [previewImg, setPreviewImg] = useState(null);
+
   useEffect(() => {
-    if (formData.turfId) {
-      const selectedTurf = turfOptions.find(turf => turf._id === formData.turfId);
-      if (selectedTurf) {
-        setFormData({
-          turfId: selectedTurf._id,
-          turfname: selectedTurf.turfname || '',
-          address: selectedTurf.address || '',
-          heroimg: null, // Reset to null for new upload
-          court: selectedTurf.court || '',
-          price: selectedTurf.price || '',
-          availability: selectedTurf.availability ?? true,
-        });
-      }
+    if (!formData.turfId) return;
+
+    const selectedTurf = turfOptions.find(turf => turf._id === formData.turfId);
+    if (selectedTurf) {
+      setFormData({
+        turfId: selectedTurf._id,
+        turfname: selectedTurf.turfname || '',
+        address: selectedTurf.address || '',
+        heroimg: null, // reset file
+        court: selectedTurf.court || '',
+        price: selectedTurf.price || '',
+        availability: selectedTurf.availability ?? true,
+      });
+      setPreviewImg(selectedTurf.heroimg || null); // Assume backend gives image URL
     }
   }, [formData.turfId, turfOptions]);
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
+
     if (name === 'heroimg') {
-      setFormData({ ...formData, heroimg: files[0] });
+      const file = files[0];
+      setFormData(prev => ({ ...prev, heroimg: file }));
+      if (file) {
+        setPreviewImg(URL.createObjectURL(file));
+      }
     } else {
-      setFormData({
-        ...formData,
+      setFormData(prev => ({
+        ...prev,
         [name]: type === 'checkbox' ? checked : value,
-      });
+      }));
     }
   };
 
-  const handleSubmit = async () => {
-    try {
-      const data = new FormData();
-      data.append('turfname', formData.turfname);
-      data.append('address', formData.address);
-      data.append('court', formData.court);
-      data.append('price', formData.price);
-      data.append('availability', formData.availability);
-      if (formData.heroimg) data.append('heroimg', formData.heroimg);
+  const handleSubmit = () => {
+    if (!formData.turfId) return;
 
-      onSubmit(formData.turfId, data);
-
-      // Reset form and close modal
-      setFormData({
-        turfId: '',
-        turfname: '',
-        address: '',
-        heroimg: null,
-        court: '',
-        price: '',
-        availability: true,
-      });
-      handleClose();
-    } catch (error) {
-      console.error("Error submitting form:", error);
+    const data = new FormData();
+    data.append('turfname', formData.turfname);
+    data.append('address', formData.address);
+    data.append('court', formData.court);
+    data.append('price', formData.price);
+    data.append('availability', formData.availability);
+    if (formData.heroimg) {
+      data.append('heroimg', formData.heroimg);
     }
+
+    onSubmit(formData.turfId, data);
+
+    // Reset state
+    setFormData({
+      turfId: '',
+      turfname: '',
+      address: '',
+      heroimg: null,
+      court: '',
+      price: '',
+      availability: true,
+    });
+    setPreviewImg(null);
+    handleClose();
   };
 
   return (
-    <Modal show={show} onHide={handleClose} centered>
+    <Modal show={show} onHide={handleClose} centered size="lg">
       <Modal.Header closeButton>
         <Modal.Title>Edit Turf</Modal.Title>
       </Modal.Header>
@@ -273,53 +415,114 @@ const EditTurf = ({ show, handleClose, turfOptions, onSubmit }) => {
         <Form>
           <Form.Group className="mb-3">
             <Form.Label>Select Turf</Form.Label>
-            <Form.Select name="turfId" onChange={handleChange} value={formData.turfId}>
-              <option value="">Select Turf</option>
+            <Form.Select name="turfId" value={formData.turfId} onChange={handleChange} required>
+              <option value="">-- Select Turf --</option>
               {turfOptions.map(turf => (
-                <option key={turf._id} value={turf._id}>{turf.turfname}</option>
+                <option key={turf._id} value={turf._id}>
+                  {turf.turfname}
+                </option>
               ))}
             </Form.Select>
           </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Turf Name</Form.Label>
-            <Form.Control type="text" name="turfname" value={formData.turfname} onChange={handleChange} />
-          </Form.Group>
+          {formData.turfId && (
+            <Row className="g-3">
+              <Col xs={12} md={6}>
+                <Form.Group>
+                  <Form.Label>Turf Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="turfname"
+                    value={formData.turfname}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+              </Col>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Address</Form.Label>
-            <Form.Control type="text" name="address" value={formData.address} onChange={handleChange} />
-          </Form.Group>
+              <Col xs={12} md={6}>
+                <Form.Group>
+                  <Form.Label>Address</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+              </Col>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Turf Image</Form.Label>
-            <Form.Control type="file" name="heroimg" accept="image/*" onChange={handleChange} />
-          </Form.Group>
+              <Col xs={12}>
+                <Form.Group>
+                  <Form.Label>Upload New Hero Image</Form.Label>
+                  <Form.Control
+                    type="file"
+                    name="heroimg"
+                    accept="image/*"
+                    onChange={handleChange}
+                  />
+                  {previewImg && (
+                    <div className="mt-2">
+                      <img
+                        src={previewImg}
+                        alt="Preview"
+                        className="img-fluid rounded"
+                        style={{ maxHeight: "150px", objectFit: "cover" }}
+                      />
+                    </div>
+                  )}
+                </Form.Group>
+              </Col>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Court Type</Form.Label>
-            <Form.Control type="text" name="court" value={formData.court} onChange={handleChange} />
-          </Form.Group>
+              <Col xs={12} md={6}>
+                <Form.Group>
+                  <Form.Label>Court Type</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="court"
+                    value={formData.court}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Price</Form.Label>
-            <Form.Control type="number" name="price" value={formData.price} onChange={handleChange} />
-          </Form.Group>
+              <Col xs={12} md={6}>
+                <Form.Group>
+                  <Form.Label>Price</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="price"
+                    value={formData.price}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
 
-          <Form.Group className="mb-3">
-            <Form.Check
-              type="checkbox"
-              label="Available"
-              name="availability"
-              checked={formData.availability}
-              onChange={handleChange}
-            />
-          </Form.Group>
+              <Col xs={12}>
+                <Form.Group>
+                  <Form.Check
+                    type="checkbox"
+                    label="Available"
+                    name="availability"
+                    checked={formData.availability}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+          )}
         </Form>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>Cancel</Button>
-        <Button variant="dark" onClick={handleSubmit}>Update Turf</Button>
+        <Button
+          variant="dark"
+          onClick={handleSubmit}
+          disabled={!formData.turfId}
+        >
+          Update Turf
+        </Button>
       </Modal.Footer>
     </Modal>
   );

@@ -19,6 +19,8 @@ import ManageUsers from "./components/AdminDB/ManageUsers";
 import ManageManagers from "./components/AdminDB/ManageManagers";
 import ManageBookings from "./components/AdminDB/ManageBookings";
 import ManagerBookingForm from "./pages/ManagerBookingForm";
+import AboutPage from "./pages/AboutPage";
+import SearchResults from "./pages/SearchResults";
 function App() {
   return (
     
@@ -43,6 +45,9 @@ function App() {
           <Route path="/managemangers" element={<ManageManagers />} />
           <Route path="/managebookings" element={<ManageBookings />} />
           <Route path="/managerbookingfrom" element={<ManagerBookingForm />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/search" element={<SearchResults />} />
+
 
 
 

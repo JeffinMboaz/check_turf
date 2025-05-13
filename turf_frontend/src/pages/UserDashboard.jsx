@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"
 import TNavbar from "../components/TNavbar";
 import Card from "react-bootstrap/Card";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify"; // ⬅️ Also import Toast
+import { ToastContainer, toast } from "react-toastify"; 
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "../components/Footer";
+
 function UserDashboard() {
   const [turf, SetTurfs] = useState([]);
 
   useEffect(() => {
     const getTurfs = async () => {
       try {
-        const res = await axios.get("http://localhost:5006/api/auth/allturf",
-           {
+        const res = await axios.get("http://localhost:5006/api/auth/allturf", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -32,41 +33,42 @@ function UserDashboard() {
     <>
       <div>
         <TNavbar />
-        <div className="px-4 py-3">
-          <h2 className="mb-4">Available Turfs</h2>
+        <div className="container px-4 py-5">
+          <h2 className="mb-4 text-center">Available Turfs</h2>
 
-          <div className="d-flex flex-wrap gap-4">
+          {/* Bootstrap grid system to make the cards responsive */}
+          <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
             {turf.length > 0 ? (
               turf.map((turf, index) => (
-                
-                <Card key={turf._id || index} style={{ width: "18rem" }}>
-                  <Card.Link href={`/bookturf/${turf._id}`}>
-                   <img
-                      src={`http://localhost:5006${turf.heroimg}`}
-                      alt="Turf"
-                      style={{ width: '100%', maxHeight: '200px', objectFit: 'cover' }}
-                    />
-                    </Card.Link>
-                
-                  <Card.Body>
-                           <Card.Title style={{ textTransform: 'capitalize' }}>
-                      {turf.turfname}
-                    </Card.Title>
-                   
-                   
-                     <strong>Address:</strong> {turf.address}<br />
-
+                <div className="col" key={turf._id || index}>
+                  <Card className="h-100">
                     <Card.Link href={`/bookturf/${turf._id}`}>
-                      Book Now
+                      <img
+                        src={`http://localhost:5006${turf.heroimg}`}
+                        alt="Turf"
+                        className="card-img-top"
+                        style={{
+                          height: "200px",
+                          objectFit: "cover",
+                        }}
+                      />
                     </Card.Link>
-                  </Card.Body>
-                </Card>
+                    <Card.Body>
+                      <Card.Title className="text-capitalize">{turf.turfname}</Card.Title>
+                      <p><strong>Address:</strong> {turf.address}</p>
+                      <Card.Link href={`/bookturf/${turf._id}`} className="btn btn-primary w-100">
+                        Book Now
+                      </Card.Link>
+                    </Card.Body>
+                  </Card>
+                </div>
               ))
             ) : (
               <p>No turfs available</p>
             )}
           </div>
         </div>
+
         {/* Toast Container */}
         <ToastContainer
           position="top-right"
@@ -75,7 +77,8 @@ function UserDashboard() {
           pauseOnHover
           theme="colored"
         />
-        <Footer/>
+        
+        <Footer />
       </div>
     </>
   );

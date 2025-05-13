@@ -7,7 +7,7 @@ const authorizeRole = require('../middleware/authorizeRole')
 const { registerAs, login, logout, getUserProfile, updateUserProfile } = require('../controllers/userauth');
 const { addTurfWithEvents, addEventsToTurf, getEventsByTurf,
   updateTurfEvent, updateTurf, deleteTurfEvent, deleteTurfAndEvents,
-  getAllTurfs, getMngrTurfs } = require("../controllers/turfController");
+  getAllTurfs, getMngrTurfs,searchTurfs } = require("../controllers/turfController");
 const { bookTurf, cancelBooking, getUserBookings, bookTurfForUser,
   getAllUsersForMgr, getManagerBookings, userCancelBooking, managerBookTurf
 } = require('../controllers/bookingController');
@@ -68,6 +68,7 @@ router.get('/allturfs', getAllTurfs);//getall turf
 
 router.get('/mngrturfs', authenticateToken, authorizeRole('Admin', 'Manager'), getMngrTurfs);//getall turf
 
+router.get('/searchturf',authenticateToken,searchTurfs)
 //bookings 
 router.post('/book', authenticateToken, bookTurf);//booktuturf
 router.delete('/cancelbooking/:bookingId', authenticateToken, cancelBooking);//cancelbooking
@@ -82,7 +83,7 @@ router.get("/getreviews", authenticateToken, getReviews);
 
 //admin controller
 router.get('/getallturf', authenticateToken, authorizeRole('Admin'), getTurfsByAdmin);
-router.post('/addturf', authenticateToken, authorizeRole('Admin'), addTurfWithEvents);
+router.post('/addturf', authenticateToken, authorizeRole('Admin'), turfUpload, addTurfWithEvents);
 router.post('/addevent/:turfId', authenticateToken, authorizeRole('Admin'), addEventsToTurf);//addevents to existing turf
 router.get('/getevents/:turfId', authenticateToken, authorizeRole('Admin'), getEventsByTurf);//get events of turf
 router.patch('/upturf-event/:turfId/:eventId', authorizeRole('Admin'), updateTurfEvent);//update turf and events

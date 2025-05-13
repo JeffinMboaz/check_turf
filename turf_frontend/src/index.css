@@ -6,3 +6,53 @@
   .Offcanvas.Title{
     text-align: center;
   }
+
+  .hero-img {
+  max-height: 600px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.turf-card-img {
+  height: 200px;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .hero-img {
+    max-height: 300px;
+  }
+
+  .turf-card-img {
+    height: 180px;
+  }
+}
+
+@media (max-width: 576px) {
+  .turf-card-img {
+    height: 160px;
+  }
+}
+@media (max-width: 576px) {
+  .modal-content {
+    padding: 1rem;
+  }
+
+  .modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+}
+@media (max-width: 576px) {
+  .modal-body {
+    max-height: 65vh;
+    overflow-y: auto;
+  }
+
+  .modal-footer button {
+    margin-top: 10px;
+  }
+}
+.sport-card{
+  
+}
