@@ -53,6 +53,7 @@
     margin-top: 10px;
   }
 }
-.sport-card{
-  
+/* Ensure Offcanvas close button is visible in dark mode */
+.offcanvas.bg-dark .btn-close {
+  filter: invert(1);
 }

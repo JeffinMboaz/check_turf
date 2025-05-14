@@ -114,12 +114,14 @@ function TNavbar() {
   return (
     <>
       {/* Registration Offcanvas */}
-      <Offcanvas show={show} onHide={handleCloseSignUp} placement="end">
-        <Offcanvas.Header closeButton>
+      <Offcanvas show={show} onHide={handleCloseSignUp} placement="end"
+      className={darkMode ? "bg-dark text-light" : "bg-light text-dark"}>
+        <Offcanvas.Header closeButton >
           <Offcanvas.Title>Sign Up</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <Form onSubmit={handleRegister}>
+          <Form onSubmit={handleRegister}
+          >
             <FloatingLabel label="Full name" className="mb-3">
               <Form.Control
                 type="text"
@@ -191,7 +193,10 @@ function TNavbar() {
       </Offcanvas>
 
       {/* Login Offcanvas */}
-      <Offcanvas show={showIn} onHide={handleCloseSignIn} placement="end">
+      <Offcanvas show={showIn} onHide={handleCloseSignIn} placement="end"
+            className={darkMode ? "bg-dark text-light" : "bg-light text-dark"}>
+
+      
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Sign In</Offcanvas.Title>
         </Offcanvas.Header>
@@ -274,35 +279,35 @@ function TNavbar() {
                         </InputGroup>
                       </Form> */}
                       <Form
-  className="d-flex"
-  onSubmit={(e) => {
-    e.preventDefault();
-    if (searchInput.trim() !== "") {
-      // navigate(`/search?turfname=${encodeURIComponent(searchInput.trim())}`);
-      navigate(`/search?turfname=${encodeURIComponent(searchInput.trim())}`);
+                        className="d-flex"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          if (searchInput.trim() !== "") {
+                            // navigate(`/search?turfname=${encodeURIComponent(searchInput.trim())}`);
+                            navigate(`/search?turfname=${encodeURIComponent(searchInput.trim())}`);
 
-    }
-  }}
->
-  <InputGroup className="rounded-pill overflow-hidden mt-2">
-    <Form.Control
-      type="search"
-      placeholder="Search"
-      aria-label="Search"
-      className="border-0"
-      value={searchInput}
-      onChange={(e) => setSearchInput(e.target.value)}
-      style={{ borderRadius: "50px 0 0 50px" }}
-    />
-    <Button
-      className="bg-white text-dark border-0"
-      type="submit"
-      style={{ borderRadius: "0 50px 50px 0" }}
-    >
-      <IoSearch size={20} />
-    </Button>
-  </InputGroup>
-</Form>
+                          }
+                        }}
+                      >
+                        <InputGroup className="rounded-pill overflow-hidden mt-2">
+                          <Form.Control
+                            type="search"
+                            placeholder="Search"
+                            aria-label="Search"
+                            className="border-0"
+                            value={searchInput}
+                            onChange={(e) => setSearchInput(e.target.value)}
+                            style={{ borderRadius: "50px 0 0 50px" }}
+                          />
+                          <Button
+                            className="bg-white text-dark border-0"
+                            type="submit"
+                            style={{ borderRadius: "0 50px 50px 0" }}
+                          >
+                            <IoSearch size={20} />
+                          </Button>
+                        </InputGroup>
+                      </Form>
 
                       <Nav.Link href="/mybooking">My Bookings</Nav.Link>
                       <Nav.Link href="/reviewrate">Review & Rate</Nav.Link>
