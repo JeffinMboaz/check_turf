@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors(
     {
-        origin: ["http://localhost:5173 ,"],
+        origin: ["http://localhost:5173" ,"https://check-turf-4axlc90ts-jeffin-ms-projects.vercel.app"],
         methods:["GET","POST","DELETE","PUT","PATCH ","OPTIONS"],
         credentials: true,
       }
