@@ -47,10 +47,6 @@ function App() {
           <Route path="/managerbookingfrom" element={<ManagerBookingForm />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/search" element={<SearchResults />} />
-
-
-
-
         </Routes>
        
     </BrowserRouter>

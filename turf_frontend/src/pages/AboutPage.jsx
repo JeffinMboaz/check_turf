@@ -1,13 +1,31 @@
-import React from 'react';
+
+import React, { useState, useEffect } from 'react';
 import TNavbar from '../components/TNavbar';
 import Footer from '../components/Footer';
 
 function AboutPage() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    // Example: Check for 'dark' class on body (if using global dark mode toggle)
+    const dark = document.body.classList.contains('dark');
+    setIsDarkMode(dark);
+  }, []);
+
+  const containerStyle = {
+    padding: '2rem',
+    maxWidth: '800px',
+    margin: 'auto',
+    backgroundColor: isDarkMode ? '#343a40' : '#f1f1f3', // dark: Bootstrap dark bg, light: near-white
+    color: isDarkMode ? '#f8f9fa' : '#212529',
+    borderRadius: '10px',
+  };
+
   return (
-    <> 
-    <TNavbar/>
-    <div className="about-page  " style={{ padding: '2rem', maxWidth: '800px', margin: 'auto' }}>
-      <h1>About Us</h1>
+    <>
+      <TNavbar />
+      <div className="about-page container my-4" style={containerStyle}>
+        <h1>About Us</h1>
       <p>
         Welcome to <strong>EFC Fitness Hub & Academies </strong>, your one-stop destination for premium turf bookings 
         designed to deliver the best experience for players and event organizers alike.
@@ -41,10 +59,14 @@ function AboutPage() {
       <p>
         Have questions or need support? Feel free to <a href="/contact">contact us</a> – our team is always here to help.
       </p>
-    </div>
-    <Footer/>
+      </div>
+      <Footer />
     </>
   );
 }
 
 export default AboutPage;
+
+
+
+

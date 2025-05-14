@@ -13,7 +13,7 @@
 //     const fetchTurfEvents = async () => {
 //       try {
 //         const token = localStorage.getItem("token");
-//         const res = await axios.get(`http://localhost:5006/api/auth/getevents/${id}`, {
+//         const res = await axios.get(`${import.meta.env.Backend_Base_Url}/api/auth/getevents/${id}`, {
 //           headers: { Authorization: `Bearer ${token}` },
 //         });
 //         setTurfData(res.data);
@@ -163,7 +163,7 @@ function TurfDetail() {
     const fetchTurfEvents = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get(`http://localhost:5006/api/auth/getevents/${id}`, {
+        const res = await axios.get(`${import.meta.env.Backend_Base_Url}/api/auth/getevents/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setTurfData(res.data);
@@ -205,7 +205,7 @@ function TurfDetail() {
               <p><strong>Price:</strong> ₹{turfData.price}</p>
               {turfData.heroimg && (
                 <img
-                  src={`http://localhost:5006${turfData.heroimg}`}
+                  src={`${import.meta.env.Backend_Base_Url}${turfData.heroimg}`}
                   alt="Turf"
                   className="img-fluid rounded shadow-sm"
                   style={{ height: "200px", width:"300px", objectFit: "cover" }}
@@ -243,7 +243,7 @@ function TurfDetail() {
                       {event.img && (
                         <Card.Img
                           variant="top"
-                          src={`http://localhost:5006${event.img}`}
+                          src={`${import.meta.env.Backend_Base_Url}${event.img}`}
                           alt={event.name}
                           style={{ height: "180px", objectFit: "cover" }}
                         />

@@ -66,7 +66,7 @@ function TNavbar() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5006/api/auth/registeras",
+        `${import.meta.env.Backend_Base_Url}/api/auth/registeras`,
         formData
       );
       handleCloseSignUp();
@@ -84,7 +84,7 @@ function TNavbar() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5006/api/auth/login",
+        `${import.meta.env.Backend_Base_Url}/api/auth/login`,
         loginData,
         { withCredentials: true }
       );
@@ -251,7 +251,7 @@ function TNavbar() {
                 : "/"
             }
           >
-            EFC Turf
+            <b>EFC TURF</b>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="main-navbar" />
           <Navbar.Collapse id="main-navbar">
