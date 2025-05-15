@@ -14,7 +14,7 @@
 //       const token = localStorage.getItem("token");
 
 //       const response = await axios.get(
-//         "${import.meta.env.Backend_Base_Url}/api/auth/userbookings",
+//         "${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/userbookings",
 //         {
 //           headers: {
 //             Authorization: `Bearer ${token}`,
@@ -43,7 +43,7 @@
 //       const token = localStorage.getItem("token");
 
 //       await axios.delete(
-//         `${import.meta.env.Backend_Base_Url}/api/auth/cancelbooking/${bookingId}`,
+//         `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/cancelbooking/${bookingId}`,
 //         {
 //           headers: {
 //             Authorization: `Bearer ${token}`,
@@ -155,7 +155,7 @@ const MyBookings = () => {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        `${import.meta.env.Backend_Base_Url}/api/auth/userbookings`,
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/userbookings`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -183,7 +183,7 @@ const MyBookings = () => {
       const token = localStorage.getItem("token");
 
       await axios.delete(
-        `${import.meta.env.Backend_Base_Url}/api/auth/cancelbooking/${bookingId}`,
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/cancelbooking/${bookingId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -31,7 +31,7 @@ function ManageManagers() {
   const fetchManagers = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get(`${import.meta.env.Backend_Base_Url}/api/auth/admgetmanagers`, {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/admgetmanagers`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setManagers(res.data.data);
@@ -46,8 +46,8 @@ function ManageManagers() {
     try {
       const token = localStorage.getItem("token");
       const url = isEditing
-        ? `${import.meta.env.Backend_Base_Url}/api/auth/admupdatemanager/${editId}`
-        :`${import.meta.env.Backend_Base_Url}/api/auth/admcreatemanager`;
+        ? `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/admupdatemanager/${editId}`
+        :`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/admcreatemanager`;
       const method = isEditing ? "put" : "post";
 
       await axios[method](url, formData, {
@@ -68,7 +68,7 @@ function ManageManagers() {
     if (!window.confirm("Delete this manager?")) return;
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`${import.meta.env.Backend_Base_Url}/api/auth/admdelmanager/${id}`, {
+      await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/admdelmanager/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("Manager deleted");

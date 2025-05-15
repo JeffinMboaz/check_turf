@@ -42,7 +42,7 @@ function ManageTurf() {
     useEffect(() => {
         const fetchTurfs = async () => {
             try {
-                const res = await axios.get(`${import.meta.env.Backend_Base_Url}/api/auth/getallturf`, {
+                const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/getallturf`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setTurfs(res.data);
@@ -57,7 +57,7 @@ function ManageTurf() {
     const handleTurfSelect = async (turfId) => {
         setSelectedTurf(turfId);
         try {
-            const res = await axios.get(`${import.meta.env.Backend_Base_Url}/api/auth/getevents/${turfId}`, {
+            const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/getevents/${turfId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setEvents(res.data.events);
@@ -71,7 +71,7 @@ function ManageTurf() {
 
     const handleDelete = async (eventId) => {
         try {
-            const res = await axios.delete(`${import.meta.env.Backend_Base_Url}/api/auth/delturfevent/${selectedTurf}/${eventId}`, {
+            const res = await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/delturfevent/${selectedTurf}/${eventId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
@@ -85,7 +85,7 @@ function ManageTurf() {
         if (!selectedEvent || !selectedTurf) return;
         try {
             const res = await axios.patch(
-                `${import.meta.env.Backend_Base_Url}/api/auth/upturf-event/${selectedTurf}/${selectedEvent._id}`,
+                `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/upturf-event/${selectedTurf}/${selectedEvent._id}`,
                 editEventData,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -112,7 +112,7 @@ function ManageTurf() {
 
     const handleTurfUpdate = async () => {
         try {
-            const res = await axios.patch(`${import.meta.env.Backend_Base_Url}/api/auth/upturf/${editTurfData._id}`, editTurfData, {
+            const res = await axios.patch(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/upturf/${editTurfData._id}`, editTurfData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             alert('Turf updated successfully');
@@ -134,7 +134,7 @@ function ManageTurf() {
     //             formData.append('heroimg', editTurfData.heroimg);
     //         }
 
-    //         await axios.patch(`${import.meta.env.Backend_Base_Url}/api/auth/upturf/${editTurfData._id}`, formData, {
+    //         await axios.patch(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/upturf/${editTurfData._id}`, formData, {
     //             headers: {
     //                 Authorization: `Bearer ${token}`,
     //                 'Content-Type': 'multipart/form-data',
@@ -150,7 +150,7 @@ function ManageTurf() {
 
     const handleTurfDelete = async () => {
         try {
-            await axios.delete(`${import.meta.env.Backend_Base_Url}/api/auth/delturf/${editTurfData._id}`, {
+            await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/delturf/${editTurfData._id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             alert('Turf deleted');
@@ -179,7 +179,7 @@ function ManageTurf() {
             }
 
             await axios.post(
-                `${import.meta.env.Backend_Base_Url}/api/auth/addevent/${editTurfData._id}`,
+                `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/addevent/${editTurfData._id}`,
                 formData,
                 {
                     headers: {
@@ -239,8 +239,8 @@ function ManageTurf() {
                         <p>Address : {turfDetails.address}</p>
                         <p>Price : {turfDetails.price}-/per hour</p>
                         {/* 
-                        <img src={`${import.meta.env.Backend_Base_Url}${turfDetails.heroimg}`} alt="Turf" style={{ width: '200px', height: 'auto' }} /> */}
-                        <img src={`${import.meta.env.Backend_Base_Url}${turfDetails.heroimg}`} alt="Turf" className="img-fluid rounded shadow-sm" />
+                        <img src={`${import.meta.env.VITE_BACKEND_BASE_URL}${turfDetails.heroimg}`} alt="Turf" style={{ width: '200px', height: 'auto' }} /> */}
+                        <img src={`${import.meta.env.VITE_BACKEND_BASE_URL}${turfDetails.heroimg}`} alt="Turf" className="img-fluid rounded shadow-sm" />
 
                     </div>
                 )}
@@ -253,7 +253,7 @@ function ManageTurf() {
                         <div className='col-12 col-sm-6 col-lg-4' key={event._id}>
 
                             <div className='card h-100'>
-                                <img src={`${import.meta.env.Backend_Base_Url}${event.img}`} className='card-img-top' alt={event.name} />
+                                <img src={`${import.meta.env.VITE_BACKEND_BASE_URL}${event.img}`} className='card-img-top' alt={event.name} />
                                 <div className='card-body'>
                                     <h5 className='card-title'>{event.name}</h5>
                                     <p className='card-text'>Type: {event.type}</p>
@@ -556,7 +556,7 @@ function ManageTurf() {
                                 }
                             });
 
-                            await axios.post(`${import.meta.env.Backend_Base_Url}/api/auth/addturf`, formData, {
+                            await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/addturf`, formData, {
                                 headers: {
                                     'Authorization': `Bearer ${token}`,
                                     'Content-Type': 'multipart/form-data',

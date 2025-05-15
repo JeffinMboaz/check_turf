@@ -32,7 +32,7 @@ function ManagerDashboard() {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const res = await axios.get(`${import.meta.env.Backend_Base_Url}/api/auth/mngrturfs`, {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/mngrturfs`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setGetMTurf(res.data || []);
@@ -48,7 +48,7 @@ function ManagerDashboard() {
   //   try {
   //     const token = localStorage.getItem("token");
   //     await axios.post(
-  //       "${import.meta.env.Backend_Base_Url}/api/auth/addevent",
+  //       "${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/addevent",
   //       data,
   //       {
   //         headers: { Authorization: `Bearer ${token}` },
@@ -65,7 +65,7 @@ const handleAddEvent = async (formData) => {
   try {
     const token = localStorage.getItem("token");
     await axios.post(
-      `${import.meta.env.Backend_Base_Url}/api/auth/addevent/${formData.get('turfId')}`,
+      `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/addevent/${formData.get('turfId')}`,
       formData,
       {
         headers: {
@@ -88,7 +88,7 @@ const handleAddEvent = async (formData) => {
     try {
       const token = localStorage.getItem("token");
       await axios.patch(
-        `${import.meta.env.Backend_Base_Url}/api/auth/upturf/${turfId}`,
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/upturf/${turfId}`,
         updateData,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -106,7 +106,7 @@ const handleAddEvent = async (formData) => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `${import.meta.env.Backend_Base_Url}/api/auth/delturf/${turfId}`,
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/delturf/${turfId}`,
 
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -123,7 +123,7 @@ const handleAddEvent = async (formData) => {
     try {
       const token = localStorage.getItem("token");
       await axios.patch(
-        `${import.meta.env.Backend_Base_Url}/api/auth/upturf/${turfId, eventId}`,
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/upturf/${turfId, eventId}`,
 
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -215,7 +215,7 @@ const handleAddEvent = async (formData) => {
                   >
                    
                     <img
-                      src={`${import.meta.env.Backend_Base_Url}${mt.heroimg}`}
+                      src={`${import.meta.env.VITE_BACKEND_BASE_URL}${mt.heroimg}`}
                       alt="Turf"
                       style={{ width: '100%', maxHeight: '200px', objectFit: 'cover' }}
                     />

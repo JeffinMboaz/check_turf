@@ -14,7 +14,7 @@ function ManageBookings() {
   const fetchBookings = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get(`${import.meta.env.Backend_Base_Url}/api/auth/admgetallbookings`, {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/admgetallbookings`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setBookings(res.data);
@@ -31,7 +31,7 @@ function ManageBookings() {
 
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`${import.meta.env.Backend_Base_Url}/api/auth/admcancelbook/${bookingId}`, {
+      await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/admcancelbook/${bookingId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("Booking cancelled successfully");
