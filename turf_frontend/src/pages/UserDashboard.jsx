@@ -13,7 +13,7 @@ function UserDashboard() {
   useEffect(() => {
     const getTurfs = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/allturf`, {
+        const res = await axios.get(` http://localhost:5006/api/auth/allturf`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -44,7 +44,7 @@ function UserDashboard() {
                   <Card className="h-100">
                     <Card.Link href={`/bookturf/${turf._id}`}>
                       <img
-                        src={`${import.meta.env.VITE_BACKEND_BASE_URL}${turf.heroimg}`}
+                        src={` http://localhost:5006${turf.heroimg}`}
                         alt="Turf"
                         className="card-img-top"
                         style={{

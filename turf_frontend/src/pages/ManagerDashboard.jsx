@@ -32,7 +32,7 @@ function ManagerDashboard() {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/mngrturfs`, {
+      const res = await axios.get(` http://localhost:5006/api/auth/mngrturfs`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setGetMTurf(res.data || []);
@@ -48,7 +48,7 @@ function ManagerDashboard() {
   //   try {
   //     const token = localStorage.getItem("token");
   //     await axios.post(
-  //       "${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/addevent",
+  //       " http://localhost:5006/api/auth/addevent",
   //       data,
   //       {
   //         headers: { Authorization: `Bearer ${token}` },
@@ -65,7 +65,7 @@ const handleAddEvent = async (formData) => {
   try {
     const token = localStorage.getItem("token");
     await axios.post(
-      `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/addevent/${formData.get('turfId')}`,
+      ` http://localhost:5006/api/auth/addevent/${formData.get('turfId')}`,
       formData,
       {
         headers: {
@@ -88,7 +88,7 @@ const handleAddEvent = async (formData) => {
     try {
       const token = localStorage.getItem("token");
       await axios.patch(
-        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/upturf/${turfId}`,
+        ` http://localhost:5006/api/auth/upturf/${turfId}`,
         updateData,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -106,7 +106,7 @@ const handleAddEvent = async (formData) => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/delturf/${turfId}`,
+        ` http://localhost:5006/api/auth/delturf/${turfId}`,
 
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -123,7 +123,7 @@ const handleAddEvent = async (formData) => {
     try {
       const token = localStorage.getItem("token");
       await axios.patch(
-        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/upturf/${turfId, eventId}`,
+        ` http://localhost:5006/api/auth/upturf/${turfId, eventId}`,
 
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -215,7 +215,7 @@ const handleAddEvent = async (formData) => {
                   >
                    
                     <img
-                      src={`${import.meta.env.VITE_BACKEND_BASE_URL}${mt.heroimg}`}
+                      src={` http://localhost:5006${mt.heroimg}`}
                       alt="Turf"
                       style={{ width: '100%', maxHeight: '200px', objectFit: 'cover' }}
                     />

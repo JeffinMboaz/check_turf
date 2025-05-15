@@ -29,7 +29,7 @@ function BookTurf() {
     const getEvents = async () => {
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/getevents/${id}`,
+          ` http://localhost:5006/api/auth/getevents/${id}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -79,7 +79,7 @@ function BookTurf() {
 
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/book`,
+        ` http://localhost:5006/api/auth/book`,
         {
           turfname: turfEvent.turfname,
           eventSelected: selectedEvent?.name,
@@ -131,7 +131,7 @@ function BookTurf() {
                 </p>
                 {heroimg && (
                   <img
-                    src={`${import.meta.env.VITE_BACKEND_BASE_URL}${heroimg}`}
+                    src={` http://localhost:5006${heroimg}`}
                     alt="Turf"
                     className="img-fluid rounded shadow-sm"
                   />
@@ -164,7 +164,7 @@ function BookTurf() {
                         {event.img && (
                           <Card.Img
                             variant="top"
-                            src={`${import.meta.env.VITE_BACKEND_BASE_URL}${event.img}`}
+                            src={` http://localhost:5006${event.img}`}
                             alt={event.name}
                             style={{ height: "180px", objectFit: "cover" }}
                           />

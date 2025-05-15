@@ -14,7 +14,7 @@ const DeleteEvent = ({ show, handleClose, turfOptions, fetchTurfs }) => {
         try {
           const token = localStorage.getItem("token");
           const res = await axios.get(
-            `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/getevents/${selectedTurf}`,
+            ` http://localhost:5006/api/auth/getevents/${selectedTurf}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -45,7 +45,7 @@ const DeleteEvent = ({ show, handleClose, turfOptions, fetchTurfs }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/delturfevent/${selectedTurf}/${selectedEvent}`,
+        ` http://localhost:5006/api/auth/delturfevent/${selectedTurf}/${selectedEvent}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

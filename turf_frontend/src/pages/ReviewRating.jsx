@@ -21,7 +21,7 @@ function ReviewRating() {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/getreviews`, {
+        const res = await axios.get(` http://localhost:5006/api/auth/getreviews`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         setUserReview(res.data || []);
@@ -32,7 +32,7 @@ function ReviewRating() {
 
     const getTurfs = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/allturf`, {
+        const res = await axios.get(` http://localhost:5006/api/auth/allturf`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -63,7 +63,7 @@ function ReviewRating() {
     if (!window.confirm("Are you sure you want to delete this review?")) return;
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/delreview/${id}`, {
+      await axios.delete(` http://localhost:5006/api/auth/delreview/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("Review deleted successfully");
@@ -83,7 +83,7 @@ function ReviewRating() {
       }
 
       await axios.post(
-        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/ratereview`,
+        ` http://localhost:5006/api/auth/ratereview`,
         { turfname, rating, review },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -92,7 +92,7 @@ function ReviewRating() {
       setShowModal(false);
       setNewReview({ turfname: "", rating: 0, review: "" });
 
-      const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/getreviews`, {
+      const res = await axios.get(` http://localhost:5006/api/auth/getreviews`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUserReview(res.data || []);
