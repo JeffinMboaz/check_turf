@@ -21,7 +21,7 @@
 //     const fetchUsers = async () => {
 //       try {
 //         const token = localStorage.getItem("token");
-//         const res = await axios.get("${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/admgetalluser", {
+//         const res = await axios.get("http://localhost:5006/api/auth/admgetalluser", {
 //           headers: {
 //             Authorization: `Bearer ${token}`,
 //           },
@@ -136,7 +136,7 @@ const [newUserData, setNewUserData] = useState({
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/admgetalluser`, {
+      const res = await axios.get(`http://localhost:5006/api/auth/admgetalluser`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -153,7 +153,7 @@ const [newUserData, setNewUserData] = useState({
     if (!window.confirm("Are you sure you want to delete this user?")) return;
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/deluser/${userId}`, {
+      await axios.delete(`http://localhost:5006/api/auth/deluser/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -185,7 +185,7 @@ const [newUserData, setNewUserData] = useState({
     };
     if (password) payload.password = password;
 
-    const res = await axios.put(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/admupdateuser/${_id}`, payload, {
+    const res = await axios.put(`http://localhost:5006/api/auth/admupdateuser/${_id}`, payload, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -203,7 +203,7 @@ const [newUserData, setNewUserData] = useState({
 const handleCreateUser = async () => {
   try {
     const token = localStorage.getItem("token");
-    const res = await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/admcreateuser`, newUserData, {
+    const res = await axios.post(`http://localhost:5006/api/auth/admcreateuser`, newUserData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
