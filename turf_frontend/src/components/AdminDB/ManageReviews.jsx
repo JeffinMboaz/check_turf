@@ -24,7 +24,7 @@ const ManageReviews = () => {
     const fetchReviews = async () => {
         try {
             const token = localStorage.getItem("token");
-            const res = await axios.get(`http://localhost:5006/api/auth/admgetallreviews`, {
+            const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/admgetallreviews`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -40,7 +40,7 @@ const ManageReviews = () => {
     const deleteReview = async (id) => {
         try {
             const token = localStorage.getItem("token");
-            await axios.delete(`http://localhost:5006/api/auth/admdelreview/${id}`, {
+            await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/admdelreview/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

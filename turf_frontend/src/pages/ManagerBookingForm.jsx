@@ -27,7 +27,7 @@
 //   const fetchBookings = async () => {
 //     try {
 //       const token = localStorage.getItem('token');
-//       const response = await axios.get(' http://localhost:5006/api/auth/getmgrbooking', {
+//       const response = await axios.get(' ${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/getmgrbooking', {
 //         headers: { Authorization: `Bearer ${token}` },
 //       });
 
@@ -44,7 +44,7 @@
 //   const fetchTurfs = async () => {
 //     try {
 //       const token = localStorage.getItem('token');
-//       const response = await axios.get('http://localhost:5006/api/auth/mngrturfs', {
+//       const response = await axios.get('${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/mngrturfs', {
 //         headers: { Authorization: `Bearer ${token}` },
 //       });
 //       setTurfs(response.data);
@@ -66,7 +66,7 @@
 
 //       try {
 //         const token = localStorage.getItem('token');
-//         const response = await axios.get(`http://localhost:5006/api/auth/getevents/${selectedTurf._id}`, {
+//         const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/getevents/${selectedTurf._id}`, {
 //           headers: { Authorization: `Bearer ${token}` },
 //         });
 //         setEvents(response.data.events || []);
@@ -82,7 +82,7 @@
 //   const cancelBooking = async (bookingId) => {
 //     try {
 //       const token = localStorage.getItem('token');
-//       await axios.put(`http://localhost:5006/api/auth/userCancelBooking/${bookingId}`, {}, {
+//       await axios.put(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/userCancelBooking/${bookingId}`, {}, {
 //         headers: { Authorization: `Bearer ${token}` },
 //       });
 //       toast.success("Booking cancelled successfully!");
@@ -97,7 +97,7 @@
 //     e.preventDefault();
 //     try {
 //       const token = localStorage.getItem('token');
-//       await axios.post('http://localhost:5006/api/auth/mgrbookturf', formData, {
+//       await axios.post('${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/mgrbookturf', formData, {
 //         headers: { Authorization: `Bearer ${token}` },
 //       });
 //       toast.success("Turf booked successfully!");
@@ -304,7 +304,7 @@ const ManagerBookings = () => {
   const fetchBookings = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(` http://localhost:5006/api/auth/getmgrbooking`, {
+      const response = await axios.get(` ${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/getmgrbooking`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -321,7 +321,7 @@ const ManagerBookings = () => {
   const fetchTurfs = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(` http://localhost:5006/api/auth/mngrturfs`, {
+      const response = await axios.get(` ${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/mngrturfs`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTurfs(response.data);
@@ -343,7 +343,7 @@ const ManagerBookings = () => {
 
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(` http://localhost:5006/api/auth/getevents/${selectedTurf._id}`, {
+        const response = await axios.get(` ${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/getevents/${selectedTurf._id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setEvents(response.data.events || []);
@@ -359,7 +359,7 @@ const ManagerBookings = () => {
   const cancelBooking = async (bookingId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(` http://localhost:5006/api/auth/userCancelBooking/${bookingId}`, {}, {
+      await axios.put(` ${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/userCancelBooking/${bookingId}`, {}, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("Booking cancelled successfully!");
@@ -374,7 +374,7 @@ const ManagerBookings = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      await axios.post(` http://localhost:5006/api/auth/mgrbookturf`, formData, {
+      await axios.post(` ${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/mgrbookturf`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("Turf booked successfully!");

@@ -18,7 +18,7 @@ function ProfilePage() {
   const fetchProfile = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(` http://localhost:5006/api/auth/getprofile`, {
+      const response = await axios.get(` ${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/getprofile`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -49,7 +49,7 @@ function ProfilePage() {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      await axios.put(` http://localhost:5006/api/auth/updateprofile`, formData, {
+      await axios.put(` ${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/updateprofile`, formData, {
         headers: {
           Authorization: `Bearer ${token}`
         }
