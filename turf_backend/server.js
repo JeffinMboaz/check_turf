@@ -17,13 +17,28 @@ if (!fs.existsSync(dir)) {
 }
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors(
-    {
-        origin: ["http://localhost:5173","https://check-turf-f6fw.vercel.app"],
-        methods:["GET","POST","DELETE","PUT","PATCH ","OPTIONS"],
-        credentials: true,
-      }
-));
+
+// app.use(cors(
+//     {
+//         origin: ["http://localhost:5173","https://check-turf-f6fw.vercel.app"],
+//         methods:["GET","POST","DELETE","PUT","PATCH ","OPTIONS"],
+//         credentials: true,
+//       }
+// ));
+const allowedOrigins = ["http://localhost:5173", "https://check-turf-f6fw.vercel.app"];
+
+app.use(cors({
+  origin: allowedOrigins,
+  methods: ["GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS"],
+  credentials: true,
+}));
+
+// Explicitly handle preflight
+app.options("*", cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
+
 connectDB();
 
 app.use("/api/auth", userAuthRoutes);
