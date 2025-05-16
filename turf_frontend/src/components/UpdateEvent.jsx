@@ -343,9 +343,9 @@ const UpdateEvent = ({ show, handleClose, turfOptions, fetchTurfs }) => {
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group className="mb-3">
+          <Form.Group className="mb-2 py-4">
             <Form.Label>Select Turf</Form.Label>
-            <Form.Select name="turfId" value={formData.turfId} onChange={handleChange} required>
+            <Form.Select name="turfId" className='mb-4' value={formData.turfId} onChange={handleChange} required>
               <option value="">Select Turf</option>
               {turfOptions.map(turf => (
                 <option key={turf._id} value={turf._id}>
@@ -357,7 +357,7 @@ const UpdateEvent = ({ show, handleClose, turfOptions, fetchTurfs }) => {
 
           {formData.turfId && (
             <>
-              <Form.Group className="mb-3">
+              <Form.Group className="mb-2">
                 <Form.Label>Select Event</Form.Label>
                 <Form.Select name="eventId" value={formData.eventId} onChange={handleChange} required>
                   <option value="">Select Event</option>
@@ -369,7 +369,7 @@ const UpdateEvent = ({ show, handleClose, turfOptions, fetchTurfs }) => {
                 </Form.Select>
               </Form.Group>
 
-              <Form.Group className="mb-3">
+              <Form.Group className="mb-2">
                 <Form.Label>Event Name</Form.Label>
                 <Form.Control
                   type="text"
@@ -380,7 +380,7 @@ const UpdateEvent = ({ show, handleClose, turfOptions, fetchTurfs }) => {
                 />
               </Form.Group>
 
-              <Form.Group className="mb-3">
+              <Form.Group className="mb-2">
                 <Form.Label>Type (Half/Full Court)</Form.Label>
                 <Form.Control
                   type="text"
@@ -391,7 +391,7 @@ const UpdateEvent = ({ show, handleClose, turfOptions, fetchTurfs }) => {
                 />
               </Form.Group>
 
-              <Form.Group className="mb-3">
+              <Form.Group className="mb-2">
                 <Form.Label>Price</Form.Label>
                 <Form.Control
                   type="number"
@@ -402,7 +402,7 @@ const UpdateEvent = ({ show, handleClose, turfOptions, fetchTurfs }) => {
                 />
               </Form.Group>
 
-              <Form.Group className="mb-3">
+              <Form.Group className="mb-2">
                 <Form.Label>Upload Event Image</Form.Label>
                 <Form.Control
                   type="file"

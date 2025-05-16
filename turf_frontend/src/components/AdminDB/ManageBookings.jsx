@@ -24,7 +24,7 @@ function ManageBookings() {
     } finally {
       setLoading(false);
     }
-  };
+  }; 
 
   const handleCancel = async (bookingId) => {
     if (!window.confirm("Are you sure you want to cancel this booking?")) return;

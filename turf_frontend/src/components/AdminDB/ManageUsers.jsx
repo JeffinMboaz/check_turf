@@ -260,7 +260,6 @@ const handleCreateUser = async () => {
                   <th>Email</th>
                   <th>Phone</th>
                   <th>Role</th>
-                  <th>Password (Hashed)</th>
                   <th>Registered On</th>
                   <th>Actions</th>
                 </tr>
@@ -273,9 +272,7 @@ const handleCreateUser = async () => {
                     <td>{user.email}</td>
                     <td>{user.phonenumber}</td>
                     <td>{user.role}</td>
-                    <td className="text-break" style={{ maxWidth: "200px" }}>
-                      {user.password}
-                    </td>
+                   
                     <td>{new Date(user.createdAt).toLocaleDateString()}</td>
                     <td>
                       <Button

@@ -405,7 +405,7 @@ const AddEvents = ({ show, handleClose, turfOptions, onSubmit }) => {
       <Modal.Header closeButton>
         <Modal.Title>Add New Event</Modal.Title>
       </Modal.Header>
-      <Modal.Body style={{ maxHeight: '75vh', overflowY: 'auto' }}>
+      <Modal.Body style={{ maxHeight: '100vh', overflowY: 'auto' }}>
         <Container fluid>
           <Form>
             <Row className="g-3">
@@ -418,6 +418,7 @@ const AddEvents = ({ show, handleClose, turfOptions, onSubmit }) => {
                     value={turfSelectOptions.find((opt) => opt.value === formData.turfId) || null}
                     placeholder="Select Turf"
                     isClearable
+                    className='mt-3'
                   />
                 </Form.Group>
               </Col>
@@ -465,7 +466,7 @@ const AddEvents = ({ show, handleClose, turfOptions, onSubmit }) => {
               </Col>
 
               <Col xs={12} md={6}>
-                <Form.Group>
+                <Form.Group className='mb-4'>
                   <Form.Label>Upload Event Image</Form.Label>
                   <Form.Control
                     type="file"

@@ -70,7 +70,7 @@ function HomePage() {
         </div>
 
         {/* Sports Category Cards */}
-        <div className="container-fluid">
+        <div className="container-fluid my-4">
           <h2 className="mb-4 text-center">Explore Sports</h2>
           <div className="row g-4 container-fluid justify-content-center ">
             {sports.map((sport, index) => (
