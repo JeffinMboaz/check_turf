@@ -240,7 +240,10 @@ function ManageTurf() {
                         <p>Price : {turfDetails.price}-/per hour</p>
                         {/* 
                         <img src={`${import.meta.env.VITE_BACKEND_BASE_URL}${turfDetails.heroimg}`} alt="Turf" style={{ width: '200px', height: 'auto' }} /> */}
-                        <img src={`${import.meta.env.VITE_BACKEND_BASE_URL}${turfDetails.heroimg}`} alt="Turf" className="img-fluid rounded shadow-sm" />
+                        <img src={`${import.meta.env.VITE_BACKEND_BASE_URL}${turfDetails.heroimg}`} alt="Turf" className="img-fluid rounded shadow-sm"  style={{
+                          height: "200px",
+                          objectFit: "cover",
+                        }} />
 
                     </div>
                 )}
@@ -253,7 +256,12 @@ function ManageTurf() {
                         <div className='col-12 col-sm-6 col-lg-4' key={event._id}>
 
                             <div className='card h-100'>
-                                <img src={`${import.meta.env.VITE_BACKEND_BASE_URL}${event.img}`} className='card-img-top' alt={event.name} />
+                                <img src={`${import.meta.env.VITE_BACKEND_BASE_URL}${event.img}`} className='card-img-top'
+                                 style={{
+                          height: "200px",
+                          objectFit: "cover",
+                        }}
+                                alt={event.name} />
                                 <div className='card-body'>
                                     <h5 className='card-title'>{event.name}</h5>
                                     <p className='card-text'>Type: {event.type}</p>
