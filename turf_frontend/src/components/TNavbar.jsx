@@ -162,7 +162,6 @@ function TNavbar() {
                 <option value="">Select</option>
                 <option value="user">User</option>
                 <option value="manager">Manager</option>
-                <option value="admin">Admin</option>
               </Form.Select>
             </FloatingLabel>
             <FloatingLabel label="Password" className="mb-3">
