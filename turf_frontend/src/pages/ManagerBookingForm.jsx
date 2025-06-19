@@ -430,105 +430,108 @@ const ManagerBookings = () => {
       <TNavbar />
       <div className="container py-5 min-vh-100">
         <h2 className="text-center mb-4">My Turf Bookings</h2>
-
-        <div className="text-start mb-3">
-          <button className="btn btn-primary  w-md-auto" onClick={() => setShowForm(!showForm)}>
-            {showForm ? 'Close Booking Form' : 'Book Turf'}
-          </button>
-        </div>
-
-        {showForm && (
-          <form onSubmit={handleBookingSubmit} className="mb-5 border p-4 rounded shadow-sm bg-light">
-            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
-              <div>
-                <label className="form-label">Turf Name</label>
-                <select className="form-select" required
-                  value={formData.turfname}
-                  onChange={(e) => setFormData({ ...formData, turfname: e.target.value, eventSelected: '' })}
-                >
-                  <option value="">Select Turf</option>
-                  {turfs.map(turf => (
-                    <option key={turf._id} value={turf.turfname}>{turf.turfname}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="form-label">Event</label>
-                <select className="form-select" required
-                  value={formData.eventSelected}
-                  onChange={(e) => setFormData({ ...formData, eventSelected: e.target.value })}
-                >
-                  <option value="">Select Event</option>
-                  {events.map((event, index) => (
-                    <option key={index} value={event.name}>{event.name}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="form-label">Court Type</label>
-                <select className="form-select" value={formData.courtType}
-                  onChange={(e) => setFormData({ ...formData, courtType: e.target.value })}
-                >
-                  <option value="Half Court">Half Court</option>
-                  <option value="Full Court">Full Court</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="form-label">Hours</label>
-                <input type="number" className="form-control" required
-                  value={formData.hours}
-                  onChange={(e) => setFormData({ ...formData, hours: parseInt(e.target.value) })}
-                />
-              </div>
-
-              <div>
-                <label className="form-label">Date</label>
-                <input type="date" className="form-control" required
-                  value={formData.date}
-                  onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                />
-              </div>
-
-              <div>
-                <label className="form-label">Start Time</label>
-                <select className="form-select"
-                  value={formData.startTime}
-                  onChange={(e) => setFormData({ ...formData, startTime: e.target.value })}
-                >
-                  {timeOptions.map((t) => (
-                    <option key={t.value} value={t.value}>{t.label}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="form-label">End Time</label>
-                <select className="form-select"
-                  value={formData.endTime}
-                  onChange={(e) => setFormData({ ...formData, endTime: e.target.value })}
-                >
-                  {timeOptions.map((t) => (
-                    <option key={t.value} value={t.value}>{t.label}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="form-label">Price</label>
-                <input type="number" className="form-control" required
-                  value={formData.price}
-                  onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
-                />
-              </div>
-
-              <div className="d-flex align-items-end">
-                <button type="submit" className="btn btn-success w-100">Submit Booking</button>
-              </div>
+        {hasTurf && (
+          <>
+            <div className="text-start mb-3">
+              <button className="btn btn-primary  w-md-auto" onClick={() => setShowForm(!showForm)}>
+                {showForm ? 'Close Booking Form' : 'Book Turf'}
+              </button>
             </div>
-          </form>
+
+            {showForm && (
+              <form onSubmit={handleBookingSubmit} className="mb-5 border p-4 rounded shadow-sm bg-light">
+                <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+                  <div>
+                    <label className="form-label">Turf Name</label>
+                    <select className="form-select" required
+                      value={formData.turfname}
+                      onChange={(e) => setFormData({ ...formData, turfname: e.target.value, eventSelected: '' })}
+                    >
+                      <option value="">Select Turf</option>
+                      {turfs.map(turf => (
+                        <option key={turf._id} value={turf.turfname}>{turf.turfname}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="form-label">Event</label>
+                    <select className="form-select" required
+                      value={formData.eventSelected}
+                      onChange={(e) => setFormData({ ...formData, eventSelected: e.target.value })}
+                    >
+                      <option value="">Select Event</option>
+                      {events.map((event, index) => (
+                        <option key={index} value={event.name}>{event.name}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="form-label">Court Type</label>
+                    <select className="form-select" value={formData.courtType}
+                      onChange={(e) => setFormData({ ...formData, courtType: e.target.value })}
+                    >
+                      <option value="Half Court">Half Court</option>
+                      <option value="Full Court">Full Court</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="form-label">Hours</label>
+                    <input type="number" className="form-control" required
+                      value={formData.hours}
+                      onChange={(e) => setFormData({ ...formData, hours: parseInt(e.target.value) })}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="form-label">Date</label>
+                    <input type="date" className="form-control" required
+                      value={formData.date}
+                      onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="form-label">Start Time</label>
+                    <select className="form-select"
+                      value={formData.startTime}
+                      onChange={(e) => setFormData({ ...formData, startTime: e.target.value })}
+                    >
+                      {timeOptions.map((t) => (
+                        <option key={t.value} value={t.value}>{t.label}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="form-label">End Time</label>
+                    <select className="form-select"
+                      value={formData.endTime}
+                      onChange={(e) => setFormData({ ...formData, endTime: e.target.value })}
+                    >
+                      {timeOptions.map((t) => (
+                        <option key={t.value} value={t.value}>{t.label}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="form-label">Price</label>
+                    <input type="number" className="form-control" required
+                      value={formData.price}
+                      onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
+                    />
+                  </div>
+
+                  <div className="d-flex align-items-end">
+                    <button type="submit" className="btn btn-success w-100">Submit Booking</button>
+                  </div>
+                </div>
+              </form>
+            )}
+          </>
         )}
 
         {!hasTurf ? (
