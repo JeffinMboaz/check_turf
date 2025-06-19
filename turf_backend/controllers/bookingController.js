@@ -283,7 +283,10 @@ const getManagerBookings = async (req, res) => {
     const turfs = await Turf.find({ "createdBy.role": "manager", "createdBy.id": managerId });
 
     if (!turfs.length) {
-      return res.status(404).json({ message: "No turfs found for this manager." });
+       return res.status(200).json({
+        hasTurf: false,
+        bookings: []
+      });
     }
 
     // Step 2: Extract turf names
@@ -292,7 +295,9 @@ const getManagerBookings = async (req, res) => {
     // Step 3: Get all bookings for these turfs
     const bookings = await Booking.find({ turfname: { $in: turfNames } }).sort({ createdAt: -1 });
 
-    res.status(200).json({ bookings });
+    res.status(200).json({ 
+      hasTurf: true,
+      bookings });
 
   } catch (error) {
     console.error("Error fetching manager bookings:", error);

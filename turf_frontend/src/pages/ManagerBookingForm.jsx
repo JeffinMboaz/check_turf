@@ -268,13 +268,14 @@
 //         </table>
 //       )}
 //     </div>
-    
+
 //     <Footer/>
 //     </>
 //   );
 // };
 
 // export default ManagerBookings;
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -289,6 +290,7 @@ const ManagerBookings = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showForm, setShowForm] = useState(false);
+  const [hasTurf, setHasTurf] = useState(true); // assume true initially
 
   const [formData, setFormData] = useState({
     turfname: '',
@@ -301,22 +303,49 @@ const ManagerBookings = () => {
     price: 0
   });
 
+  // const fetchBookings = async () => {
+  //   try {
+  //     const token = localStorage.getItem('token');
+  //     const response = await axios.get(` ${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/getmgrbooking`, {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     });
+
+  //     const data = response.data;
+  //     setBookings(Array.isArray(data.bookings) ? data.bookings : (Array.isArray(data) ? data : []));
+  //     setLoading(false);
+  //   } catch (err) {
+  //     console.error('Fetch error:', err);
+  //     setError('Failed to fetch bookings.');
+  //     setLoading(false);
+  //   }
+  // };
   const fetchBookings = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(` ${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/getmgrbooking`, {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/getmgrbooking`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       const data = response.data;
-      setBookings(Array.isArray(data.bookings) ? data.bookings : (Array.isArray(data) ? data : []));
-      setLoading(false);
+
+      setHasTurf(data.hasTurf);
+
+      if (data.hasTurf === false) {
+        setBookings([]);
+      } else {
+        setBookings(Array.isArray(data.bookings) ? data.bookings : []);
+      }
+
     } catch (err) {
       console.error('Fetch error:', err);
-      setError('Failed to fetch bookings.');
+      setError("Failed to fetch bookings.");
+    } finally {
       setLoading(false);
     }
   };
+
+
+
 
   const fetchTurfs = async () => {
     try {
@@ -394,7 +423,7 @@ const ManagerBookings = () => {
   });
 
   if (loading) return <div className="text-center py-5">Loading bookings...</div>;
-  if (error) return <div className="text-danger text-center">{error}</div>;
+
 
   return (
     <>
@@ -502,8 +531,12 @@ const ManagerBookings = () => {
           </form>
         )}
 
-        {bookings.length === 0 ? (
-          <p className="text-center">No bookings found for your turfs.</p>
+        {!hasTurf ? (
+          <div className="alert alert-info text-center fw-semibold">
+            You do not have any turf yet.
+          </div>
+        ) : bookings.length === 0 ? (
+          <div className="text-center">No bookings found for your turfs.</div>
         ) : (
           <div className="table-responsive">
             <table className="table table-bordered table-striped align-middle text-center">
