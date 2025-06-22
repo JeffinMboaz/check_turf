@@ -21,87 +21,87 @@ const getCoordinatesFromAddress = async (address) => {
 
 
 
-const addTurfWithEvents = async (req, res) => {
-  try {
-    const user = req.user;
-    const {
-      turfname,
-      address,
-      court,
-      price,
-      availability,
-      events,
-    } = req.body;
+// const addTurfWithEvents = async (req, res) => {
+//   try {
+//     const user = req.user;
+//     const {
+//       turfname,
+//       address,
+//       court,
+//       price,
+//       availability,
+//       events,
+//     } = req.body;
 
-    // Validate
-    if (!turfname || !address || !court || isNaN(Number(price)) || availability === undefined) {
-      return res.status(400).json({ message: "Missing or invalid required fields" });
-    }
+//     // Validate
+//     if (!turfname || !address || !court || isNaN(Number(price)) || availability === undefined) {
+//       return res.status(400).json({ message: "Missing or invalid required fields" });
+//     }
 
-    const parsedPrice = Number(price);
-    const parsedAvailability = availability === 'true' || availability === true;
+//     const parsedPrice = Number(price);
+//     const parsedAvailability = availability === 'true' || availability === true;
 
-    let parsedEvents = [];
-    try {
-      parsedEvents = JSON.parse(events);
-    } catch (e) {
-      return res.status(400).json({ message: "Invalid events format" });
-    }
+//     let parsedEvents = [];
+//     try {
+//       parsedEvents = JSON.parse(events);
+//     } catch (e) {
+//       return res.status(400).json({ message: "Invalid events format" });
+//     }
 
-    // Get coordinates from address
-    const coordinates = await getCoordinatesFromAddress(address);
+//     // Get coordinates from address
+//     const coordinates = await getCoordinatesFromAddress(address);
 
-    // ⚠️ Use req.files.heroimg instead of req.file
-    const heroimg = req.files?.heroimg?.[0]
-      ? `/uploads/turfs/${req.files.heroimg[0].filename}`
-      : "";
+//     // ⚠️ Use req.files.heroimg instead of req.file
+//     const heroimg = req.files?.heroimg?.[0]
+//       ? `/uploads/turfs/${req.files.heroimg[0].filename}`
+//       : "";
 
-    // 🧠 Add image paths to each event
-    const eventImages = req.files?.eventimgs || [];
+//     // 🧠 Add image paths to each event
+//     const eventImages = req.files?.eventimgs || [];
 
-    const parsedEventsWithImgs = parsedEvents.map((event, index) => {
-      const imgPath = eventImages[index]
-        ? `/uploads/turfs/${eventImages[index].filename}`
-        : "";
-      return { ...event, img: imgPath };
-    });
+//     const parsedEventsWithImgs = parsedEvents.map((event, index) => {
+//       const imgPath = eventImages[index]
+//         ? `/uploads/turfs/${eventImages[index].filename}`
+//         : "";
+//       return { ...event, img: imgPath };
+//     });
 
-    // Create Turf
-    const newTurf = await Turf.create({
-      turfname,
-      address,
-      location: {
-        type: "Point",
-        coordinates,
-      },
-      heroimg,
-      court,
-      price: parsedPrice,
-      availability: parsedAvailability,
-      createdBy: {
-        role: user.role,
-        id: user.id,
-      },
-    });
+//     // Create Turf
+//     const newTurf = await Turf.create({
+//       turfname,
+//       address,
+//       location: {
+//         type: "Point",
+//         coordinates,
+//       },
+//       heroimg,
+//       court,
+//       price: parsedPrice,
+//       availability: parsedAvailability,
+//       createdBy: {
+//         role: user.role,
+//         id: user.id,
+//       },
+//     });
 
-    // Create associated events
-    const newTurfevent = await TurfEvents.create({
-      turf: newTurf._id,
-      turfname: newTurf.turfname,
-      events: parsedEventsWithImgs,
-    });
+//     // Create associated events
+//     const newTurfevent = await TurfEvents.create({
+//       turf: newTurf._id,
+//       turfname: newTurf.turfname,
+//       events: parsedEventsWithImgs,
+//     });
 
-    return res.status(201).json({
-      message: "Turf and events added successfully",
-      turf: newTurf,
-      events: newTurfevent,
-    });
+//     return res.status(201).json({
+//       message: "Turf and events added successfully",
+//       turf: newTurf,
+//       events: newTurfevent,
+//     });
 
-  } catch (err) {
-    console.error("Error adding turf:", err);
-    res.status(500).json({ error: err.message });
-  }
-};
+//   } catch (err) {
+//     console.error("Error adding turf:", err);
+//     res.status(500).json({ error: err.message });
+//   }
+// };
 
 
 
@@ -159,11 +159,113 @@ const addTurfWithEvents = async (req, res) => {
 
 //get all event of one turf
 
+const addTurfWithEvents = async (req, res) => {
+  try {
+    const user = req.user;
+    const {
+      turfname,
+      address,
+      court,
+      price,
+      availability,
+      events,
+    } = req.body;
+
+    if (!turfname || !address || !court || isNaN(Number(price)) || availability === undefined) {
+      return res.status(400).json({ message: "Missing or invalid required fields" });
+    }
+
+    const parsedPrice = Number(price);
+    const parsedAvailability = availability === 'true' || availability === true;
+
+    let parsedEvents = [];
+    try {
+      parsedEvents = JSON.parse(events);
+    } catch (e) {
+      return res.status(400).json({ message: "Invalid events format" });
+    }
+
+    const coordinates = await getCoordinatesFromAddress(address);
+
+    const heroimg = req.files?.heroimg?.[0]?.path || "";
+
+    const eventImages = req.files?.eventimgs || [];
+
+    const parsedEventsWithImgs = parsedEvents.map((event, index) => {
+      const imgPath = eventImages[index]?.path || "";
+      return { ...event, img: imgPath };
+    });
+
+    const newTurf = await Turf.create({
+      turfname,
+      address,
+      location: {
+        type: "Point",
+        coordinates,
+      },
+      heroimg,
+      court,
+      price: parsedPrice,
+      availability: parsedAvailability,
+      createdBy: {
+        role: user.role,
+        id: user.id,
+      },
+    });
+
+    const newTurfevent = await TurfEvents.create({
+      turf: newTurf._id,
+      turfname: newTurf.turfname,
+      events: parsedEventsWithImgs,
+    });
+
+    return res.status(201).json({
+      message: "Turf and events added successfully",
+      turf: newTurf,
+      events: newTurfevent,
+    });
+
+  } catch (err) {
+    console.error("Error adding turf:", err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// const addEventsToTurf = async (req, res) => {
+//   try {
+//     const { turfId, name, type, price } = req.body;
+//     const img = req.file ? `/uploads/events/${req.file.filename}` : null;
+
+//     if (!turfId || !name || !type || !price || !img) {
+//       return res.status(400).json({ message: "All fields are required." });
+//     }
+
+//     const turf = await Turf.findById(turfId);
+//     if (!turf) return res.status(404).json({ message: "Turf not found" });
+
+//     let turfEvent = await TurfEvents.findOne({ turf: turfId });
+
+//     const newEvent = { name, type, price, img };
+
+//     if (turfEvent) {
+//       turfEvent.events.push(newEvent);
+//       await turfEvent.save();
+//     } else {
+//       turfEvent = new TurfEvents({ turf: turfId, events: [newEvent] });
+//       await turfEvent.save();
+//     }
+
+//     return res.status(201).json({ message: "Event added successfully", turfEvent });
+//   } catch (error) {
+//     console.error("Error adding event:", error);
+//     return res.status(500).json({ message: "Server error" });
+//   }
+// };
 
 const addEventsToTurf = async (req, res) => {
   try {
     const { turfId, name, type, price } = req.body;
-    const img = req.file ? `/uploads/events/${req.file.filename}` : null;
+    const img = req.file?.path || null;
 
     if (!turfId || !name || !type || !price || !img) {
       return res.status(400).json({ message: "All fields are required." });
@@ -190,6 +292,7 @@ const addEventsToTurf = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
 
 const getEventsByTurf = async (req, res) => {
   try {
@@ -219,17 +322,18 @@ const getEventsByTurf = async (req, res) => {
 
 //update event of turf
 
+
 // const updateTurfEvent = async (req, res) => {
 //   try {
 //     const { turfId, eventId } = req.params;
-//     const { name, type, price, img } = req.body;
+//     const { name, type, price } = req.body;
+//     const img = req.file ? `/uploads/events/${req.file.filename}` : undefined;
 
 //     if (!mongoose.Types.ObjectId.isValid(turfId) || !mongoose.Types.ObjectId.isValid(eventId)) {
 //       return res.status(400).json({ message: "Invalid Turf or Event ID" });
 //     }
 
 //     const turfEventDoc = await TurfEvents.findOne({ turf: turfId });
-
 //     if (!turfEventDoc) {
 //       return res.status(404).json({ message: "Turfevent not found" });
 //     }
@@ -252,12 +356,11 @@ const getEventsByTurf = async (req, res) => {
 //     return res.status(500).json({ message: "Server error", error: error.message });
 //   }
 // };
-
 const updateTurfEvent = async (req, res) => {
   try {
     const { turfId, eventId } = req.params;
     const { name, type, price } = req.body;
-    const img = req.file ? `/uploads/events/${req.file.filename}` : undefined;
+    const img = req.file?.path;
 
     if (!mongoose.Types.ObjectId.isValid(turfId) || !mongoose.Types.ObjectId.isValid(eventId)) {
       return res.status(400).json({ message: "Invalid Turf or Event ID" });
@@ -288,34 +391,7 @@ const updateTurfEvent = async (req, res) => {
 };
 
 
-// const updateTurf = async (req, res) => {
-//   try {
-//     const { turfId } = req.params;
-//     const updates = req.body;
 
-//     // Validate turfId
-//     if (!mongoose.Types.ObjectId.isValid(turfId)) {
-//       return res.status(400).json({ message: "Invalid Turf ID" });
-//     }
-
-//     // Update the turf
-//     const updatedTurf = await Turf.findByIdAndUpdate(turfId, updates, { new: true });
-
-//     if (!updatedTurf) {
-//       return res.status(404).json({ message: "Turf not found" });
-//     }
-
-//     res.status(200).json({
-//       message: "Turf updated successfully",
-//       turf: updatedTurf
-//     });
-//   } catch (error) {
-//     console.error("Error updating turf:", error.message);
-//     res.status(500).json({ message: "Server error", error: error.message });
-//   }
-// };
-
-//delete one event of turf
 
 // const updateTurf = async (req, res) => {
 //   try {
@@ -332,8 +408,18 @@ const updateTurfEvent = async (req, res) => {
 //       availability: req.body.availability === 'true',
 //     };
 
+//     // Use provided coordinates, or geocode if missing
 //     if (req.body.coordinates) {
-//       updates.location = { type: 'Point', coordinates: JSON.parse(req.body.coordinates) };
+//       updates.location = {
+//         type: 'Point',
+//         coordinates: JSON.parse(req.body.coordinates),
+//       };
+//     } else if (req.body.address) {
+//       const coords = await getCoordinatesFromAddress(req.body.address);
+//       updates.location = {
+//         type: 'Point',
+//         coordinates: coords,
+//       };
 //     }
 
 //     if (req.files?.heroimg?.[0]) {
@@ -353,21 +439,6 @@ const updateTurfEvent = async (req, res) => {
 //   }
 // };
 
-
-
-// const getCoordinatesFromAddress = async (address) => {
-//   const apiKey = process.env.GEOCODING_API_KEY;
-//   const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(address)}&key=${apiKey}`;
-//   const response = await fetch(url);
-//   const data = await response.json();
-//   if (data.results.length > 0) {
-//     const { lat, lng } = data.results[0].geometry;
-//     return [lng, lat];
-//   }
-//   throw new Error('Unable to geocode address');
-// };
-
-
 const updateTurf = async (req, res) => {
   try {
     const { turfId } = req.params;
@@ -383,7 +454,6 @@ const updateTurf = async (req, res) => {
       availability: req.body.availability === 'true',
     };
 
-    // Use provided coordinates, or geocode if missing
     if (req.body.coordinates) {
       updates.location = {
         type: 'Point',
@@ -398,7 +468,7 @@ const updateTurf = async (req, res) => {
     }
 
     if (req.files?.heroimg?.[0]) {
-      updates.heroimg = `/uploads/turfs/${req.files.heroimg[0].filename}`;
+      updates.heroimg = req.files.heroimg[0].path;
     }
 
     const updatedTurf = await Turf.findByIdAndUpdate(turfId, updates, { new: true });
@@ -413,7 +483,6 @@ const updateTurf = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
 
 
 const deleteTurfEvent = async (req, res) => {
