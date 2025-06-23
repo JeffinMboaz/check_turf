@@ -44,8 +44,8 @@ function UserDashboard() {
                   <Card className="h-100">
                     <Card.Link href={`/bookturf/${turf._id}`}>
                       <img
-                        // src={`${import.meta.env.VITE_BACKEND_BASE_URL}${turf.heroimg}`}
-                        src={turf.heroimg}
+                        src={`${import.meta.env.VITE_BACKEND_BASE_URL}${turf.heroimg}`}
+                       
                         
                         alt="Turf"
                         className="card-img-top"
