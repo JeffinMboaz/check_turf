@@ -54,11 +54,11 @@ router.get('/allturf', authenticateToken, getAllTurfs);//getall turf
 // const { eventUpload } = require('../middleware/upload'); // or wherever your upload config is
 
 router.patch('/upturf-event/:turfId/:eventId', authenticateToken, eventUpload, updateTurfEvent);
-
+router.patch('/upturf/:turfId', authenticateToken, turfUpload, updateTurf);
 
 // router.patch('/upturf/:turfId', authenticateToken, updateTurf);//update turf 
 
-router.patch('/upturf/:turfId', authenticateToken, turfUpload, updateTurf);
+
 
 
 router.delete("/delturfevent/:turfId/:eventId", authenticateToken, deleteTurfEvent);//delete an event 
