@@ -60,8 +60,25 @@
 //   turfUpload,
 //   eventUpload
 // };
+
+// working
+// const multer = require('multer');
+// const { turfStorage, eventStorage } = require('../config/cloudinaryConfig'); // relative path
+
+// const turfUpload = multer({ storage: turfStorage }).fields([
+//   { name: 'heroimg', maxCount: 1 },
+//   { name: 'eventimgs', maxCount: 10 }
+// ]);
+
+// const eventUpload = multer({ storage: eventStorage }).single('img');
+
+// module.exports = {
+//   turfUpload,
+//   eventUpload
+// };
+
 const multer = require('multer');
-const { turfStorage, eventStorage } = require('../config/cloudinaryConfig'); // relative path
+const { turfStorage, eventStorage } = require('../config/cloudinaryConfig');
 
 const turfUpload = multer({ storage: turfStorage }).fields([
   { name: 'heroimg', maxCount: 1 },
@@ -70,7 +87,4 @@ const turfUpload = multer({ storage: turfStorage }).fields([
 
 const eventUpload = multer({ storage: eventStorage }).single('img');
 
-module.exports = {
-  turfUpload,
-  eventUpload
-};
+module.exports = { turfUpload, eventUpload };
