@@ -307,15 +307,41 @@ const getAllUsersForMgr = async (req, res) => {
 
 
 // addingnew
+// const getManagerBookings = async (req, res) => {
+//   try {
+//     const managerId = req.user.id; // assuming middleware sets req.user
+
+//     // Step 1: Get all turfs created by this manager
+//     const turfs = await Turf.find({ "createdBy.role": "manager", "createdBy.id": managerId });
+
+//     if (!turfs.length) {
+//       return res.status(404).json({ message: "No turfs found for this manager." });
+//     }
+
+//     // Step 2: Extract turf names
+//     const turfNames = turfs.map(turf => turf.turfname);
+
+//     // Step 3: Get all bookings for these turfs
+//     const bookings = await Booking.find({ turfname: { $in: turfNames } }).sort({ createdAt: -1 });
+
+//     res.status(200).json({ bookings });
+//   } catch (error) {
+//     console.error("Error fetching manager bookings:", error);
+//     res.status(500).json({ message: "Server error while fetching bookings." });
+//   }
+// };
 const getManagerBookings = async (req, res) => {
   try {
-    const managerId = req.user.id; // assuming middleware sets req.user
+    const managerId = req.user.id;
 
     // Step 1: Get all turfs created by this manager
     const turfs = await Turf.find({ "createdBy.role": "manager", "createdBy.id": managerId });
 
     if (!turfs.length) {
-      return res.status(404).json({ message: "No turfs found for this manager." });
+      return res.status(200).json({
+        bookings: [],
+        message: "You haven't created any turf yet."
+      });
     }
 
     // Step 2: Extract turf names

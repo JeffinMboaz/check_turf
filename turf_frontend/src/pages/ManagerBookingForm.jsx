@@ -616,21 +616,39 @@ const ManagerBookings = () => {
     price: 0
   });
 
-  const fetchBookings = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/getmgrbooking`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = response.data;
-      setBookings(Array.isArray(data.bookings) ? data.bookings : []);
-      setLoading(false);
-    } catch (err) {
-      console.error('Fetch error:', err);
-      setError('Failed to fetch bookings.');
-      setLoading(false);
-    }
-  };
+  // const fetchBookings = async () => {
+  //   try {
+  //     const token = localStorage.getItem('token');
+  //     const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/getmgrbooking`, {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     });
+  //     const data = response.data;
+  //     setBookings(Array.isArray(data.bookings) ? data.bookings : []);
+  //     setLoading(false);
+  //   } catch (err) {
+  //     console.error('Fetch error:', err);
+  //     setError('Failed to fetch bookings.');
+  //     setLoading(false);
+  //   }
+  // };
+const fetchBookings = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/getmgrbooking`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = response.data;
+
+    setBookings(Array.isArray(data.bookings) ? data.bookings : []);
+    setError(data.message || '');
+  } catch (err) {
+    console.error('Fetch error:', err);
+    setError("Failed to fetch bookings.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const fetchTurfs = async () => {
     try {
