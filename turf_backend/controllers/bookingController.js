@@ -334,7 +334,6 @@ const getManagerBookings = async (req, res) => {
   try {
     const managerId = req.user.id;
 
-    // Step 1: Get all turfs created by this manager
     const turfs = await Turf.find({ "createdBy.role": "manager", "createdBy.id": managerId });
 
     if (!turfs.length) {
@@ -344,10 +343,7 @@ const getManagerBookings = async (req, res) => {
       });
     }
 
-    // Step 2: Extract turf names
     const turfNames = turfs.map(turf => turf.turfname);
-
-    // Step 3: Get all bookings for these turfs
     const bookings = await Booking.find({ turfname: { $in: turfNames } }).sort({ createdAt: -1 });
 
     res.status(200).json({ bookings });

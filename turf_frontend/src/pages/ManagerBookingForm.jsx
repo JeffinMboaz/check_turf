@@ -637,10 +637,16 @@ const fetchBookings = async () => {
     const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/getmgrbooking`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    const data = response.data;
 
+    const data = response.data;
     setBookings(Array.isArray(data.bookings) ? data.bookings : []);
-    setError(data.message || '');
+    
+    // If message exists (like "You haven't created any turf yet.")
+    if (data.message) {
+      setError(data.message);
+    } else {
+      setError('');
+    }
   } catch (err) {
     console.error('Fetch error:', err);
     setError("Failed to fetch bookings.");
@@ -648,6 +654,7 @@ const fetchBookings = async () => {
     setLoading(false);
   }
 };
+
 
 
   const fetchTurfs = async () => {
