@@ -275,29 +275,62 @@ const getAllUsersForMgr = async (req, res) => {
   }
 };
 
+// const getManagerBookings = async (req, res) => {
+//   try {
+//     const managerId = req.user.id; // assuming middleware sets req.user
+
+//     // Step 1: Get all turfs created by this manager
+//     const turfs = await Turf.find({ "createdBy.role": "manager", "createdBy.id": managerId });
+
+//     if (!turfs.length) {
+//        return res.status(200).json({
+//         hasTurf: false,
+//         bookings: []
+//       });
+//     }
+
+//     // Step 2: Extract turf names
+//     const turfNames = turfs.map(turf => turf.turfname);
+
+//     // Step 3: Get all bookings for these turfs
+//     const bookings = await Booking.find({ turfname: { $in: turfNames } }).sort({ createdAt: -1 });
+
+//     res.status(200).json({ 
+//       hasTurf: true,
+//       bookings });
+
+//   } catch (error) {
+//     console.error("Error fetching manager bookings:", error);
+//     res.status(500).json({ message: "Server error while fetching bookings." });
+//   }
+// };
 const getManagerBookings = async (req, res) => {
   try {
-    const managerId = req.user.id; // assuming middleware sets req.user
+    const managerId = req.user.id;
 
-    // Step 1: Get all turfs created by this manager
-    const turfs = await Turf.find({ "createdBy.role": "manager", "createdBy.id": managerId });
+    // Check if manager has created any turf
+    const turfs = await Turf.find({
+      "createdBy.role": "manager",
+      "createdBy.id": managerId
+    });
 
     if (!turfs.length) {
-       return res.status(200).json({
+      return res.status(200).json({
         hasTurf: false,
         bookings: []
       });
     }
 
-    // Step 2: Extract turf names
-    const turfNames = turfs.map(turf => turf.turfname);
+    // Fetch bookings created by the same manager
+    const bookings = await Booking.find({
+      "createdBy.role": "Manager",
+      "createdBy.id": managerId
+    }).sort({ createdAt: -1 });
 
-    // Step 3: Get all bookings for these turfs
-    const bookings = await Booking.find({ turfname: { $in: turfNames } }).sort({ createdAt: -1 });
-
-    res.status(200).json({ 
+    res.status(200).json({
       hasTurf: true,
-      bookings });
+      bookings
+    });
 
   } catch (error) {
     console.error("Error fetching manager bookings:", error);

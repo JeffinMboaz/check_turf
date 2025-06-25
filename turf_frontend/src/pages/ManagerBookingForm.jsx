@@ -343,10 +343,6 @@ const ManagerBookings = () => {
       setLoading(false);
     }
   };
-
-
-
-
   const fetchTurfs = async () => {
     try {
       const token = localStorage.getItem('token');
