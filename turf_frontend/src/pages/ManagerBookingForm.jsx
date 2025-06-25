@@ -428,18 +428,20 @@ const ManagerBookings = () => {
   return (
     <>
       <TNavbar />
-      <div className="container py-5 min-vh-100">
-        <h2 className="text-center mb-4">My Turf Bookings</h2>
-        {hasTurf && (
-          <>
-            <div className="text-start mb-3">
-              <button className="btn btn-primary  w-md-auto" onClick={() => setShowForm(!showForm)}>
-                {showForm ? 'Close Booking Form' : 'Book Turf'}
-              </button>
-            </div>
+     <div className="container py-5 min-vh-100">
+      <h2 className="text-center mb-4">My Turf Bookings</h2>
 
-            {showForm && (
-              <form onSubmit={handleBookingSubmit} className="mb-5 border p-4 rounded shadow-sm bg-light">
+      {hasTurf ? (
+        <>
+          <div className="text-start mb-3">
+            <button className="btn btn-primary w-md-auto" onClick={() => setShowForm(!showForm)}>
+              {showForm ? 'Close Booking Form' : 'Book Turf'}
+            </button>
+          </div>
+
+          {showForm && (
+            <form onSubmit={handleBookingSubmit} className="mb-5 border p-4 rounded shadow-sm bg-light">
+              {/* Form content remains unchanged */}
                 <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
                   <div>
                     <label className="form-label">Turf Name</label>
@@ -529,60 +531,60 @@ const ManagerBookings = () => {
                     <button type="submit" className="btn btn-success w-100">Submit Booking</button>
                   </div>
                 </div>
-              </form>
-            )}
-          </>
-        )}
+                </form>
+          )}
 
-        {!hasTurf ? (
-          <div className="alert alert-info text-center fw-semibold">
-            You do not have any turf yet.
-          </div>
-        ) : bookings.length === 0 ? (
-          <div className="text-center">No bookings found for your turfs.</div>
-        ) : (
-          <div className="table-responsive">
-            <table className="table table-bordered table-striped align-middle text-center">
-              <thead className="table-dark">
-                <tr>
-                  <th>Turf</th>
-                  <th>Event</th>
-                  <th>Court Type</th>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>Booked By</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {bookings.map((booking) => (
-                  <tr key={booking._id}>
-                    <td>{booking.turfname}</td>
-                    <td>{booking.eventSelected}</td>
-                    <td>{booking.courtType}</td>
-                    <td>{booking.date}</td>
-                    <td>{`${booking.startTime} - ${booking.endTime}`}</td>
-                    <td>{booking.username.role}</td>
-                    <td>
-                      <span className={booking.status === 'Booked' ? 'text-success fw-bold' : 'text-danger fw-bold'}>
-                        {booking.status}
-                      </span>
-                    </td>
-                    <td>
-                      {booking.status === 'Booked' && (
-                        <button className="btn btn-sm btn-danger" onClick={() => cancelBooking(booking._id)}>
-                          Cancel
-                        </button>
-                      )}
-                    </td>
+          {bookings.length === 0 ? (
+            <div className="text-center">No bookings found for your turfs.</div>
+          ) : (
+            <div className="table-responsive">
+              <table className="table table-bordered table-striped align-middle text-center">
+                <thead className="table-dark">
+                  <tr>
+                    <th>Turf</th>
+                    <th>Event</th>
+                    <th>Court Type</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Booked By</th>
+                    <th>Status</th>
+                    <th>Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+                </thead>
+                <tbody>
+                  {bookings.map((booking) => (
+                    <tr key={booking._id}>
+                      <td>{booking.turfname}</td>
+                      <td>{booking.eventSelected}</td>
+                      <td>{booking.courtType}</td>
+                      <td>{booking.date}</td>
+                      <td>{`${booking.startTime} - ${booking.endTime}`}</td>
+                      <td>{booking.username.role}</td>
+                      <td>
+                        <span className={booking.status === 'Booked' ? 'text-success fw-bold' : 'text-danger fw-bold'}>
+                          {booking.status}
+                        </span>
+                      </td>
+                      <td>
+                        {booking.status === 'Booked' && (
+                          <button className="btn btn-sm btn-danger" onClick={() => cancelBooking(booking._id)}>
+                            Cancel
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </>
+      ) : (
+        <div className="alert alert-info text-center fw-semibold">
+          You do not have any turf yet.
+        </div>
+      )}
+    </div>
       <Footer />
     </>
   );
