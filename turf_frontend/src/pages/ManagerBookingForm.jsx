@@ -330,7 +330,7 @@ const ManagerBookings = () => {
 
       setHasTurf(data.hasTurf);
 
-      if (data.hasTurf === false) {
+      if (data.hasTurf === true) {
         setBookings([]);
       } else {
         setBookings(Array.isArray(data.bookings) ? data.bookings : []);
