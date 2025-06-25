@@ -649,7 +649,7 @@ const fetchBookings = async () => {
     }
   } catch (err) {
     console.error('Fetch error:', err);
-    setError("Failed to fetch bookings.");
+   
   } finally {
     setLoading(false);
   }
