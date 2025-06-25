@@ -56,19 +56,19 @@ function TurfDetail() {
             <p><strong>Address:</strong> {turfData.address}</p>
               <p><strong>Price:</strong> ₹{turfData.price}</p>
               {turfData.heroimg && (
-                // <img
-                //   src={` ${import.meta.env.VITE_BACKEND_BASE_URL}${turfData.heroimg}`}
-                //   alt="Turf"
-                //   className="img-fluid rounded shadow-sm"
-                //   style={{ height: "200px", width:"300px", objectFit: "cover" }}
-                // />
-
                 <img
-  src={turfData.heroimg} // ✅ use directly
-  alt="Turf"
-  className="img-fluid rounded shadow-sm"
-  style={{ height: "200px", width:"300px", objectFit: "cover" }}
-/>
+                  src={` ${import.meta.env.VITE_BACKEND_BASE_URL}${turfData.heroimg}`}
+                  alt="Turf"
+                  className="img-fluid rounded shadow-sm"
+                  style={{ height: "200px", width:"300px", objectFit: "cover" }}
+                />
+
+//                 <img
+//   src={turfData.heroimg} // ✅ use directly
+//   alt="Turf"
+//   className="img-fluid rounded shadow-sm"
+//   style={{ height: "200px", width:"300px", objectFit: "cover" }}
+// />
 
               )}
 
@@ -102,19 +102,19 @@ function TurfDetail() {
                   <Col md={6} lg={3} key={idx} className="mb-4">
                     <Card className="h-100 shadow-sm">
                       {event.img && (
-                        // <Card.Img
-                        //   variant="top"
-                        //   src={` ${import.meta.env.VITE_BACKEND_BASE_URL}${event.img}`}
-                          
-                        //   alt={event.name}
-                        //   style={{ height: "180px", objectFit: "cover" }}
-                        // />
                         <Card.Img
-  variant="top"
-  src={event.img} // ✅ use directly
-  alt={event.name}
-  style={{ height: "180px", objectFit: "cover" }}
-/>
+                          variant="top"
+                          src={` ${import.meta.env.VITE_BACKEND_BASE_URL}${event.img}`}
+                          
+                          alt={event.name}
+                          style={{ height: "180px", objectFit: "cover" }}
+                        />
+//                         <Card.Img
+//   variant="top"
+//   src={event.img} // ✅ use directly
+//   alt={event.name}
+//   style={{ height: "180px", objectFit: "cover" }}
+// />
 
                       )}
                       <Card.Body className="d-flex flex-column">
