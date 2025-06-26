@@ -549,7 +549,7 @@ src={event.img}
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowAddModal(false)}>Cancel</Button>
 
-                    <Button variant="success" onClick={async () => {
+                    {/* <Button variant="success" onClick={async () => {
                         try {
                             const formData = new FormData();
                             formData.append('turfname', newTurfData.turfname);
@@ -586,7 +586,56 @@ src={event.img}
                         }
                     }}>
                         Add Turf
-                    </Button>
+                    </Button> */}
+                    <Button variant="success" onClick={async () => {
+  try {
+    const formData = new FormData();
+    formData.append('turfname', newTurfData.turfname);
+    formData.append('address', newTurfData.address);
+    formData.append('court', newTurfData.court);
+    formData.append('price', newTurfData.price);
+    formData.append('availability', newTurfData.availability);
+
+    if (newTurfData.heroimg) {
+      formData.append('heroimg', newTurfData.heroimg);
+    }
+
+    const eventDataArray = [];
+    newTurfData.events.forEach((event) => {
+      eventDataArray.push({
+        name: event.name,
+        type: event.type,
+        price: event.price,
+      });
+
+      // Append even if image is missing to preserve index
+      if (event.img instanceof File) {
+        formData.append('eventimgs', event.img);
+      } else {
+        // Append a placeholder if necessary, or skip
+      }
+    });
+
+    formData.append('events', JSON.stringify(eventDataArray));
+
+    await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/addturf`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    alert("Turf added successfully!");
+    setShowAddModal(false);
+    window.location.reload();
+  } catch (err) {
+    console.error(err);
+    alert("Failed to add turf");
+  }
+}}>
+  Add Turf
+</Button>
+
 
                 </Modal.Footer>
             </Modal>
