@@ -402,9 +402,9 @@ src={event.img}
                             <Form.Label>Upload Hero Image</Form.Label>
                             <Form.Control
                                 type="file"
-                                name="heroimg"
+                                name="img"//heroimg change to img
                                 accept="image/*"
-                                onChange={(e) => setEditEventData({ ...editEventData, heroimg: e.target.files[0] })}
+                                onChange={(e) => setEditEventData({ ...editEventData, img: e.target.files[0] })} //heroimg change to img
                             />
                         </Form.Group>
 
