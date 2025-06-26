@@ -240,7 +240,10 @@ function ManageTurf() {
                         <p>Price : {turfDetails.price}-/per hour</p>
                         {/* 
                         <img src={`${import.meta.env.VITE_BACKEND_BASE_URL}${turfDetails.heroimg}`} alt="Turf" style={{ width: '200px', height: 'auto' }} /> */}
-                        <img src={`${import.meta.env.VITE_BACKEND_BASE_URL}${turfDetails.heroimg}`} alt="Turf" className="img-fluid rounded shadow-sm"  style={{
+                        <img 
+                        // src={`${import.meta.env.VITE_BACKEND_BASE_URL}${turfDetails.heroimg}`}
+src={turfDetails.heroimg}
+                         alt="Turf" className="img-fluid rounded shadow-sm"  style={{
                           height: "200px",
                           objectFit: "cover",
                         }} />
@@ -256,7 +259,10 @@ function ManageTurf() {
                         <div className='col-12 col-sm-6 col-lg-4' key={event._id}>
 
                             <div className='card h-100'>
-                                <img src={`${import.meta.env.VITE_BACKEND_BASE_URL}${event.img}`} className='card-img-top'
+                                <img 
+                                // src={`${import.meta.env.VITE_BACKEND_BASE_URL}${event.img}`}
+src={event.img}
+                                 className='card-img-top'
                                  style={{
                           height: "200px",
                           objectFit: "cover",
