@@ -81,24 +81,57 @@ function ManageTurf() {
         }
     };
 
-    const handleEventUpdate = async () => {
-        if (!selectedEvent || !selectedTurf) return;
-        try {
-            const res = await axios.patch(
-                `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/upturf-event/${selectedTurf}/${selectedEvent._id}`,
-                editEventData,
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
-            alert('Event updated successfully');
-            // Refresh events list
-            handleTurfSelect(selectedTurf);
-            setShowEditModal(false);
-        } catch (err) {
-            console.error("Failed to update event", err);
-            alert("Failed to update event");
-        }
-    };
+    // const handleEventUpdate = async () => {
+    //     if (!selectedEvent || !selectedTurf) return;
+    //     try {
+    //         const res = await axios.patch(
+    //             `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/upturf-event/${selectedTurf}/${selectedEvent._id}`,
+    //             editEventData,
+    //             { headers: { Authorization: `Bearer ${token}` } }
+    //         );
+    //         alert('Event updated successfully');
+    //         // Refresh events list
+    //         handleTurfSelect(selectedTurf);
+    //         setShowEditModal(false);
+    //     } catch (err) {
+    //         console.error("Failed to update event", err);
+    //         alert("Failed to update event");
+    //     }
+    // };
 
+const handleEventUpdate = async () => {
+  if (!selectedEvent || !selectedTurf) return;
+
+  try {
+    const formData = new FormData();
+    formData.append('name', editEventData.name);
+    formData.append('type', editEventData.type);
+    formData.append('price', editEventData.price);
+
+    // Only append img if it's a File (not a URL string)
+    if (editEventData.img instanceof File) {
+      formData.append('img', editEventData.img);
+    }
+
+    await axios.patch(
+      `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/upturf-event/${selectedTurf}/${selectedEvent._id}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
+
+    alert('Event updated successfully');
+    handleTurfSelect(selectedTurf); // refresh events
+    setShowEditModal(false);
+  } catch (err) {
+    console.error("Failed to update event", err);
+    alert("Failed to update event");
+  }
+};
 
     const handleSecondTurfSelect = (id) => {
         const turf = turfs.find(t => t._id === id);
@@ -399,7 +432,7 @@ src={event.img}
 
 
                         <Form.Group className="mb-3">
-                            <Form.Label>Upload Hero Image</Form.Label>
+                            <Form.Label>Upload Event Image</Form.Label>
                             <Form.Control
                                 type="file"
                                 name="img"//heroimg change to img
@@ -407,6 +440,15 @@ src={event.img}
                                 onChange={(e) => setEditEventData({ ...editEventData, img: e.target.files[0] })} //heroimg change to img
                             />
                         </Form.Group>
+{editEventData.img && (
+  <div className="mb-3">
+    <img
+      src={editEventData.img instanceof File ? URL.createObjectURL(editEventData.img) : editEventData.img}
+      alt="Preview"
+      style={{ height: "150px", objectFit: "cover", borderRadius: "6px" }}
+    />
+  </div>
+)}
 
 
                     </Form>
