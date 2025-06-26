@@ -372,12 +372,47 @@ const addTurfWithEvents = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+// const addEventsToTurf = async (req, res) => {
+//   try {
+//     const { turfId, name, type, price } = req.body;
+//     const img = req.file?.secure_url || null; // ✅ use Cloudinary URL
+
+//     if (!turfId || !name || !type || !price || !img) {
+//       return res.status(400).json({ message: "All fields are required." });
+//     }
+
+//     const turf = await Turf.findById(turfId);
+//     if (!turf) return res.status(404).json({ message: "Turf not found" });
+
+//     let turfEvent = await TurfEvents.findOne({ turf: turfId });
+
+//     const newEvent = { name, type, price, img };
+
+//     if (turfEvent) {
+//       turfEvent.events.push(newEvent);
+//       await turfEvent.save();
+//     } else {
+//       turfEvent = new TurfEvents({ turf: turfId, events: [newEvent] });
+//       await turfEvent.save();
+//     }
+
+//     return res.status(201).json({ message: "Event added successfully", turfEvent });
+//   } catch (error) {
+//     console.error("Error adding event:", error);
+//     return res.status(500).json({ message: "Server error" });
+//   }
+// };
+
 const addEventsToTurf = async (req, res) => {
   try {
-    const { turfId, name, type, price } = req.body;
-    const img = req.file?.secure_url || null; // ✅ use Cloudinary URL
+    const { name, type, price } = req.body;
+    const { turfId } = req.params;
+    const img = req.file?.path || null; // ✅ FIXED
 
-    if (!turfId || !name || !type || !price || !img) {
+    console.log("Incoming Add Event:", { name, type, price, turfId });
+    console.log("File:", req.file);
+
+    if (!name || !type || !price || !img) {
       return res.status(400).json({ message: "All fields are required." });
     }
 
@@ -385,7 +420,6 @@ const addEventsToTurf = async (req, res) => {
     if (!turf) return res.status(404).json({ message: "Turf not found" });
 
     let turfEvent = await TurfEvents.findOne({ turf: turfId });
-
     const newEvent = { name, type, price, img };
 
     if (turfEvent) {
@@ -397,12 +431,12 @@ const addEventsToTurf = async (req, res) => {
     }
 
     return res.status(201).json({ message: "Event added successfully", turfEvent });
+
   } catch (error) {
     console.error("Error adding event:", error);
     return res.status(500).json({ message: "Server error" });
   }
 };
-
 
 
 
