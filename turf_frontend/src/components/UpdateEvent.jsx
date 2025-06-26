@@ -238,7 +238,7 @@ const UpdateEvent = ({ show, handleClose, turfOptions, fetchTurfs }) => {
         try {
           const token = localStorage.getItem("token");
           const res = await axios.get(
-            ` ${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/getevents/${formData.turfId}`,
+            `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/getevents/${formData.turfId}`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
           setEvents(res.data.events);
@@ -299,7 +299,7 @@ const UpdateEvent = ({ show, handleClose, turfOptions, fetchTurfs }) => {
       }
 
       await axios.patch(
-        ` ${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/upturf-event/${formData.turfId}/${formData.eventId}`,
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/upturf-event/${formData.turfId}/${formData.eventId}`,
         payload,
         {
           headers: {
