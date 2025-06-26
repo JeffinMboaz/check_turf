@@ -84,12 +84,12 @@ router.get("/getreviews", authenticateToken, getReviews);
 //admin controller
 router.get('/getallturf', authenticateToken, authorizeRole('Admin'), getTurfsByAdmin);
 router.post('/addturf', authenticateToken, authorizeRole('Admin'), turfUpload, addTurfWithEvents);
-router.post('/addevent/:turfId', authenticateToken, authorizeRole('Admin'), addEventsToTurf);//addevents to existing turf
-router.get('/getevents/:turfId', authenticateToken, authorizeRole('Admin'), getEventsByTurf);//get events of turf
-router.patch('/upturf-event/:turfId/:eventId', authorizeRole('Admin'), updateTurfEvent);//update turf and events
-router.patch('/upturf/:turfId', authenticateToken, authorizeRole('Admin'), updateTurf);//update turf 
+router.post('/addevent/:turfId', authenticateToken, authorizeRole('Admin'),eventUpload, addEventsToTurf);//addevents to existing turf
+router.get('/getevents/:turfId', authenticateToken, authorizeRole('Admin'),getEventsByTurf);//get events of turf
+router.patch('/upturf-event/:turfId/:eventId', authorizeRole('Admin'),eventUpload,updateTurfEvent);//update turf and events
+router.patch('/upturf/:turfId', authenticateToken, authorizeRole('Admin'),turfUpload,updateTurf);//update turf 
 router.delete("/delturfevent/:turfId/:eventId", authenticateToken, authorizeRole('Admin'), deleteTurfEvent);//delete an event 
-router.delete("/delturf/:turfId", authenticateToken, authorizeRole('Admin'), deleteTurfAndEvents);//delete a turf and all events
+router.delete("/delturf/:turfId", authenticateToken, authorizeRole('Admin'),deleteTurfAndEvents);//delete a turf and all events
 
 router.post('/admbook', authenticateToken, authorizeRole('Admin'), bookTurf);//booktuturf
 router.delete('/admcancelbook/:bookingId', authenticateToken, authorizeRole('Admin'), AdmincancelBooking);//cancelbooking

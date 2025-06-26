@@ -61,11 +61,35 @@ function ManagerDashboard() {
   //   }
   // };
 
-const handleAddEvent = async (formData) => {
+
+  // existing
+// const handleAddEvent = async (formData) => {
+//   try {
+//     const token = localStorage.getItem("token");
+//     await axios.post(
+//       ` ${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/addevent/${formData.get('turfId')}`,
+//       formData,
+//       {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//           'Content-Type': 'multipart/form-data'
+//         },
+//       }
+//     ); 
+//     toast.success("Event added successfully!");
+//     fetchTurfs();
+//   } catch (error) {
+//     toast.error("Failed to add event");
+//     console.error(error);
+//   }
+// };
+
+// adding
+const handleAddEvent = async (formData, turfId) => {
   try {
     const token = localStorage.getItem("token");
     await axios.post(
-      ` ${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/addevent/${formData.get('turfId')}`,
+      `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/addevent/${turfId}`,
       formData,
       {
         headers: {
@@ -73,16 +97,14 @@ const handleAddEvent = async (formData) => {
           'Content-Type': 'multipart/form-data'
         },
       }
-    ); 
+    );
     toast.success("Event added successfully!");
     fetchTurfs();
   } catch (error) {
-    toast.error("Failed to add event");
-    console.error(error);
+    toast.error(error.response?.data?.message || "Failed to add event");
+    console.error("Add Event Error:", error.response || error);
   }
 };
-
-
 
   const handleEditTurf = async (turfId, updateData) => {
     try {
@@ -285,3 +307,4 @@ const handleAddEvent = async (formData) => {
 }
 
 export default ManagerDashboard;
+
