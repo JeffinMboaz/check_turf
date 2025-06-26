@@ -334,11 +334,6 @@ src={event.img}
                                 <Form.Label>Turf Image</Form.Label>
                                 <Form.Control type="text" name="heroimg" value={editTurfData.heroimg} onChange={handleEditChange} />
                             </Form.Group>
-
-
-
-
-
                             <Form.Group className="mb-3">
                                 <Form.Label>Court Type</Form.Label>
                                 <Form.Control type="text" name="court" value={editTurfData.court} onChange={handleEditChange} />
@@ -639,6 +634,7 @@ src={event.img}
 
                 </Modal.Footer>
             </Modal>
+            
             {/* to add event */}
             <Modal show={showAddEventModal} onHide={() => setShowAddEventModal(false)}>
                 <Modal.Header closeButton>

@@ -32,7 +32,7 @@ function ManagerDashboard() {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const res = await axios.get(` ${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/mngrturfs`, {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/mngrturfs`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setGetMTurf(res.data || []);
