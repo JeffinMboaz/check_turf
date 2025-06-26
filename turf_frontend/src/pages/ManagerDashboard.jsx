@@ -215,7 +215,9 @@ const handleAddEvent = async (formData) => {
                   >
                    
                     <img
-                      src={` ${import.meta.env.VITE_BACKEND_BASE_URL}${mt.heroimg}`}
+                      // src={` ${import.meta.env.VITE_BACKEND_BASE_URL}${mt.heroimg}`}
+                      src={mt.heroimg}
+
                       alt="Turf"
                       style={{ width: '100%', maxHeight: '200px', objectFit: 'cover' }}
                     />
