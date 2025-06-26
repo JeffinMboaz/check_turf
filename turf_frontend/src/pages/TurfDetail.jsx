@@ -57,7 +57,8 @@ function TurfDetail() {
               <p><strong>Price:</strong> ₹{turfData.price}</p>
               {turfData.heroimg && (
                 <img
-                  src={` ${import.meta.env.VITE_BACKEND_BASE_URL}${turfData.heroimg}`}
+                  // src={` ${import.meta.env.VITE_BACKEND_BASE_URL}${turfData.heroimg}`}
+src={turfData.heroimg}
                   alt="Turf"
                   className="img-fluid rounded shadow-sm"
                   style={{ height: "200px", width:"300px", objectFit: "cover" }}
@@ -97,8 +98,8 @@ function TurfDetail() {
                       {event.img && (
                         <Card.Img
                           variant="top"
-                          src={`${import.meta.env.VITE_BACKEND_BASE_URL}${event.img}`}
-                          
+                          // src={`${import.meta.env.VITE_BACKEND_BASE_URL}${event.img}`}
+                          src={event.img}
                           alt={event.name}
                           style={{ height: "180px", objectFit: "cover" }}
                         />

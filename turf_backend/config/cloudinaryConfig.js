@@ -1,3 +1,4 @@
+
 // const cloudinary = require('cloudinary').v2;
 // const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
@@ -8,7 +9,7 @@
 // });
 
 // const turfStorage = new CloudinaryStorage({
-//   cloudinary: cloudinary,
+//   cloudinary,
 //   params: {
 //     folder: 'turfs',
 //     allowed_formats: ['jpg', 'jpeg', 'png'],
@@ -16,7 +17,7 @@
 // });
 
 // const eventStorage = new CloudinaryStorage({
-//   cloudinary: cloudinary,
+//   cloudinary,
 //   params: {
 //     folder: 'events',
 //     allowed_formats: ['jpg', 'jpeg', 'png'],
