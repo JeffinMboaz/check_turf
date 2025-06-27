@@ -427,7 +427,7 @@ src={event.img}
       }))
     }
   />
-  {/* Optional Preview */}
+  {/* Optional Preview
   {editTurfData?.heroimg && !(editTurfData.heroimg instanceof File) && (
     <img
       src={editTurfData.heroimg}
@@ -435,7 +435,26 @@ src={event.img}
       className="mt-2"
       style={{ height: '100px', objectFit: 'cover', borderRadius: '6px' }}
     />
-  )}
+  )} */}{editTurfData?.heroimg && (
+  <div className="mt-2">
+    <img
+      src={
+        editTurfData.heroimg instanceof File
+          ? URL.createObjectURL(editTurfData.heroimg)
+          : editTurfData.heroimg
+      }
+      alt="Turf Preview"
+      style={{
+        width: '100%',
+        maxHeight: '150px',
+        objectFit: 'cover',
+        borderRadius: '6px',
+        border: '1px solid #ccc',
+      }}
+    />
+  </div>
+)}
+
 </Form.Group>
 
 
