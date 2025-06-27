@@ -142,17 +142,17 @@ const handleEventUpdate = async () => {
         const { name, value } = e.target;
         setEditTurfData(prev => ({ ...prev, [name]: value }));
     };
-
-    const handleTurfUpdate = async () => {
-        try {
-            const res = await axios.patch(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/upturf/${editTurfData._id}`, editTurfData, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            alert('Turf updated successfully');
-        } catch (err) {
-            console.error("Update failed", err);
-        }
-    };
+// existing
+    // const handleTurfUpdate = async () => {
+    //     try {
+    //         const res = await axios.patch(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/upturf/${editTurfData._id}`, editTurfData, {
+    //             headers: { Authorization: `Bearer ${token}` }
+    //         });
+    //         alert('Turf updated successfully');
+    //     } catch (err) {
+    //         console.error("Update failed", err);
+    //     }
+    // };
     // const handleTurfUpdate = async () => {
     //     try {
     //         const formData = new FormData();
@@ -180,6 +180,47 @@ const handleEventUpdate = async () => {
     //         alert("Failed to update turf");
     //     }
     // };
+// adding
+
+const handleTurfUpdate = async () => {
+  try {
+    const formData = new FormData();
+    formData.append('turfname', editTurfData.turfname);
+    formData.append('address', editTurfData.address);
+    formData.append('court', editTurfData.court);
+    formData.append('price', editTurfData.price);
+    formData.append('availability', editTurfData.availability);
+    
+    // Coordinates as stringified array
+    if (editTurfData.location?.coordinates) {
+      formData.append(
+        'coordinates',
+        JSON.stringify(editTurfData.location.coordinates)
+      );
+    }
+
+    // Only append image if a file is selected
+    if (editTurfData.heroimg instanceof File) {
+      formData.append('heroimg', editTurfData.heroimg);
+    }
+
+    await axios.patch(
+      `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/upturf/${editTurfData._id}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
+
+    alert('Turf updated successfully');
+  } catch (err) {
+    console.error("Update failed", err);
+    alert("Failed to update turf");
+  }
+};
 
     const handleTurfDelete = async () => {
         try {
@@ -362,11 +403,42 @@ src={event.img}
                                     }}
                                 />
                             </Form.Group>
-
-                            <Form.Group className="mb-3">
+{/* existing */}
+                            {/* <Form.Group className="mb-3">
                                 <Form.Label>Turf Image</Form.Label>
-                                <Form.Control type="text" name="heroimg" value={editTurfData.heroimg} onChange={handleEditChange} />
-                            </Form.Group>
+                                <Form.Control 
+                                type="text" 
+                                name="heroimg" 
+                                // value={editTurfData.heroimg} 
+ accept="image/*"
+                                onChange={handleEditChange} />
+                            </Form.Group> */}
+     {/* adding */}
+<Form.Group className="mb-3">
+  <Form.Label>Turf Image</Form.Label>
+  <Form.Control
+    type="file"
+    name="heroimg"
+    accept="image/*"
+    onChange={(e) =>
+      setEditTurfData((prev) => ({
+        ...prev,
+        heroimg: e.target.files[0], // Store File object
+      }))
+    }
+  />
+  {/* Optional Preview */}
+  {editTurfData?.heroimg && !(editTurfData.heroimg instanceof File) && (
+    <img
+      src={editTurfData.heroimg}
+      alt="Preview"
+      className="mt-2"
+      style={{ height: '100px', objectFit: 'cover', borderRadius: '6px' }}
+    />
+  )}
+</Form.Group>
+
+
                             <Form.Group className="mb-3">
                                 <Form.Label>Court Type</Form.Label>
                                 <Form.Control type="text" name="court" value={editTurfData.court} onChange={handleEditChange} />
