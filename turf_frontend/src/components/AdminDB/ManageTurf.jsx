@@ -445,7 +445,7 @@ src={event.img}
       }
       alt="Turf Preview"
       style={{
-        width: '100%',
+        width: '150px',
         maxHeight: '150px',
         objectFit: 'cover',
         borderRadius: '6px',
