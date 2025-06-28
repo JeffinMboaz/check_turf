@@ -369,14 +369,27 @@ src={event.img}
                         </select>
                         
                     </div> */}
-<div className='mb-3 w-25'>
-    <select className='form-select' onChange={(e) => handleSecondTurfSelect(e.target.value)}>
-        <option value="">Select Turf</option>
-        {turfs.map(turf => (
-            <option key={turf._id} value={turf._id}>{turf.turfname}</option>
-        ))}
-    </select>
-   
+<div className='mb-3 col-12 col-sm-6 col-md-4 d-flex align-items-center'>
+  <select
+    className='form-select'
+    value={editTurfData?._id || ''}
+    onChange={(e) => handleSecondTurfSelect(e.target.value)}
+  >
+    <option value="">Select Turf</option>
+    {turfs.map(turf => (
+      <option key={turf._id} value={turf._id}>{turf.turfname}</option>
+    ))}
+  </select>
+
+  {editTurfData && (
+    <AiOutlineCloseCircle
+      size={24}
+      className='ms-2 text-danger cursor-pointer'
+      onClick={() => {
+        setEditTurfData(null);
+      }}
+    />
+  )}
 </div>
 
                     {editTurfData && (
