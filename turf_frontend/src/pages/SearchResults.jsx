@@ -13,7 +13,7 @@ const SearchResults = () => {
    const fetchResults = async () => {
   try {
     const token = localStorage.getItem("token");
-    const res = await axios.get(` ${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/searchturf${location.search}`, {
+    const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/searchturf${location.search}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -43,12 +43,19 @@ const SearchResults = () => {
       {turfs.map((turf) => (
         <Col key={turf._id}>
           <Card className="h-100 shadow-sm">
-            <Card.Img 
-              variant="top" 
-              src={` ${import.meta.env.VITE_BACKEND_BASE_URL}${turf.heroimg}`} 
-              alt={turf.turfname} 
-              style={{ height: '200px', objectFit: 'cover' }} 
-            />
+           <Card.Link href={`/bookturf/${turf._id}`}>
+                                 <img
+                                   // src={`${import.meta.env.VITE_BACKEND_BASE_URL}${turf.heroimg}`}
+                                  src={turf.heroimg}
+                                   
+                                   alt="Turf"
+                                   className="card-img-top"
+                                   style={{
+                                     height: "200px",
+                                     objectFit: "cover",
+                                   }}
+                                 />
+                               </Card.Link>
             <Card.Body>
               <Card.Title>{turf.turfname}</Card.Title>
               <Card.Text>
