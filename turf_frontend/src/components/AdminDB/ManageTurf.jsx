@@ -376,17 +376,7 @@ src={event.img}
             <option key={turf._id} value={turf._id}>{turf.turfname}</option>
         ))}
     </select>
-    {selectedTurf && (
-        <AiOutlineCloseCircle
-            size={24}
-            className='ms-2 text-danger cursor-pointer'
-            onClick={() => {
-                setSelectedTurf('');
-                setTurfDetails(null);
-                setEvents([]);
-            }}
-        />
-    )}
+   
 </div>
 
                     {editTurfData && (
