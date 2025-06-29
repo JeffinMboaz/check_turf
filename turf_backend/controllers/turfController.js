@@ -833,14 +833,65 @@ const turfs = await Turf.find({ "createdBy.role": "manager", "createdBy.id": man
 
 
 
+// const searchTurfs = async (req, res) => {
+//   try {
+//     const { turfname, address, event, minPrice, maxPrice } = req.query;
+
+//     // Step 1: Find all turfevents that match the event name and price range (if given)
+//     let turfeventFilter = {};
+//     if (event || minPrice || maxPrice) {
+//       turfeventFilter.events = {};
+
+//       if (event) {
+//         turfeventFilter["events.name"] = { $regex: event, $options: "i" };
+//       }
+
+//       if (minPrice || maxPrice) {
+//         turfeventFilter["events.price"] = {};
+//         if (minPrice) turfeventFilter["events.price"].$gte = Number(minPrice);
+//         if (maxPrice) turfeventFilter["events.price"].$lte = Number(maxPrice);
+//       }
+//     }
+
+//     let turfIdsFromEvents = [];
+//     if (Object.keys(turfeventFilter).length > 0) {
+//       const matchingEvents = await TurfEvents.find(turfeventFilter).select("turf");
+//       turfIdsFromEvents = matchingEvents.map(ev => ev.turf.toString());
+//     }
+
+//     // Step 2: Build Turf search filter
+//     let turfFilter = {};
+
+//     if (turfname) {
+//       turfFilter.turfname = { $regex: turfname, $options: "i" };
+//     }
+
+//     if (address) {
+//       turfFilter.address = { $regex: address, $options: "i" };
+//     }
+
+//     if (turfIdsFromEvents.length > 0) {
+//       turfFilter._id = { $in: turfIdsFromEvents };
+//     }
+
+//     // Step 3: Query Turf collection with filters
+//     const turfs = await Turf.find(turfFilter);
+
+//     res.status(200).json(turfs);
+//   } catch (error) {
+//     console.error("Search error:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
+
 const searchTurfs = async (req, res) => {
   try {
     const { turfname, address, event, minPrice, maxPrice } = req.query;
 
-    // Step 1: Find all turfevents that match the event name and price range (if given)
-    let turfeventFilter = {};
+    let turfIdsFromEvents = [];
+
     if (event || minPrice || maxPrice) {
-      turfeventFilter.events = {};
+      const turfeventFilter = {};
 
       if (event) {
         turfeventFilter["events.name"] = { $regex: event, $options: "i" };
@@ -851,16 +902,12 @@ const searchTurfs = async (req, res) => {
         if (minPrice) turfeventFilter["events.price"].$gte = Number(minPrice);
         if (maxPrice) turfeventFilter["events.price"].$lte = Number(maxPrice);
       }
-    }
 
-    let turfIdsFromEvents = [];
-    if (Object.keys(turfeventFilter).length > 0) {
       const matchingEvents = await TurfEvents.find(turfeventFilter).select("turf");
       turfIdsFromEvents = matchingEvents.map(ev => ev.turf.toString());
     }
 
-    // Step 2: Build Turf search filter
-    let turfFilter = {};
+    const turfFilter = {};
 
     if (turfname) {
       turfFilter.turfname = { $regex: turfname, $options: "i" };
@@ -870,20 +917,23 @@ const searchTurfs = async (req, res) => {
       turfFilter.address = { $regex: address, $options: "i" };
     }
 
-    if (turfIdsFromEvents.length > 0) {
+    // Only apply event filter if it was used in query
+    if ((event || minPrice || maxPrice) && turfIdsFromEvents.length > 0) {
       turfFilter._id = { $in: turfIdsFromEvents };
     }
 
-    // Step 3: Query Turf collection with filters
-    const turfs = await Turf.find(turfFilter);
+    // If event filter was used but NO turf matched, return early
+    if ((event || minPrice || maxPrice) && turfIdsFromEvents.length === 0) {
+      return res.status(200).json([]); // No matches
+    }
 
+    const turfs = await Turf.find(turfFilter);
     res.status(200).json(turfs);
   } catch (error) {
     console.error("Search error:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
 
 
 module.exports = { addTurfWithEvents,addEventsToTurf, getEventsByTurf,updateTurfEvent,updateTurf,
