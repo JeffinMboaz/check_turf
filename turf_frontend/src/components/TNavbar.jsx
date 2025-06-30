@@ -277,7 +277,7 @@ function TNavbar() {
                           </Button>
                         </InputGroup>
                       </Form> */}
-                      <Form
+                      {/* <Form
                         className="d-flex"
                         onSubmit={(e) => {
                           e.preventDefault();
@@ -287,7 +287,17 @@ function TNavbar() {
 
                           }
                         }}
-                      >
+                      > */}
+                      <Form
+  className="d-flex"
+  onSubmit={(e) => {
+    e.preventDefault();
+    if (searchInput.trim() !== "") {
+      navigate(`/searchresults?keyword=${encodeURIComponent(searchInput.trim())}`);
+    }
+  }}
+>
+
                         <InputGroup className="rounded-pill overflow-hidden mt-2">
                           <Form.Control
                             type="search"
