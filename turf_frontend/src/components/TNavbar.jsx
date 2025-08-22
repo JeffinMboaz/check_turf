@@ -10,7 +10,7 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { IoSearch } from "react-icons/io5";
-import {  toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { TbLogout2 } from "react-icons/tb";
 import { FaUserCircle } from "react-icons/fa";
@@ -115,7 +115,7 @@ function TNavbar() {
     <>
       {/* Registration Offcanvas */}
       <Offcanvas show={show} onHide={handleCloseSignUp} placement="end"
-      className={darkMode ? "bg-dark text-light" : "bg-light text-dark"}>
+        className={darkMode ? "bg-dark text-light" : "bg-light text-dark"}>
         <Offcanvas.Header closeButton >
           <Offcanvas.Title>Sign Up</Offcanvas.Title>
         </Offcanvas.Header>
@@ -193,9 +193,9 @@ function TNavbar() {
 
       {/* Login Offcanvas */}
       <Offcanvas show={showIn} onHide={handleCloseSignIn} placement="end"
-            className={darkMode ? "bg-dark text-light" : "bg-light text-dark"}>
+        className={darkMode ? "bg-dark text-light" : "bg-light text-dark"}>
 
-      
+
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Sign In</Offcanvas.Title>
         </Offcanvas.Header>
@@ -289,14 +289,14 @@ function TNavbar() {
                         }}
                       > */}
                       <Form
-  className="d-flex"
-  onSubmit={(e) => {
-    e.preventDefault();
-    if (searchInput.trim() !== "") {
-      navigate(`/searchresults?keyword=${encodeURIComponent(searchInput.trim())}`);
-    }
-  }}
->
+                        className="d-flex"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          if (searchInput.trim() !== "") {
+                            navigate(`/searchresults?keyword=${encodeURIComponent(searchInput.trim())}`);
+                          }
+                        }}
+                      >
 
                         <InputGroup className="rounded-pill overflow-hidden mt-2">
                           <Form.Control

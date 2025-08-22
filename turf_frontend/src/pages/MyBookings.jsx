@@ -201,6 +201,49 @@ const MyBookings = () => {
       alert(err.response?.data?.message || "Failed to cancel booking.");
     }
   };
+  const handlePayment = async (bookingId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/payment/order`,
+        { bookingId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      const options = {
+        key: data.key,
+        amount: data.amount,
+        currency: data.currency,
+        name: "Turf Booking",
+        description: "Payment for turf booking",
+        order_id: data.orderId,
+        prefill: {
+          name: data.user.fullname,
+          email: data.user.email,
+          contact: data.user.phonenumber,
+        },
+        handler: async function (response) {
+          await axios.post(
+            `${import.meta.env.VITE_BACKEND_BASE_URL}/api/auth/payment/verify`,
+            { ...response, bookingId },
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+
+          setBookings((prev) =>
+            prev.map((b) =>
+              b._id === bookingId ? { ...b, paymentStatus: "Paid" } : b
+            )
+          );
+        },
+        theme: { color: "#3399cc" },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      console.error("Payment failed:", err);
+      alert("Payment initiation failed");
+    }
+  };
 
   return (
     <>
@@ -266,15 +309,21 @@ const MyBookings = () => {
                         )}
                       </td>
                       <td>
-                        <a
-                          href="https://rzp.io/rzp/GFTLtI1"
-                          className="btn btn-primary btn-sm"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Pay
-                        </a>
+                        {booking.paymentStatus === "Paid" ? (
+                          <Button variant="success" size="sm" disabled>
+                            Paid
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="primary"
+                            size="sm"
+                            onClick={() => handlePayment(booking._id)}
+                          >
+                            Pay
+                          </Button>
+                        )}
                       </td>
+
                     </tr>
                   ))}
                 </tbody>

@@ -156,7 +156,8 @@ const cancelBooking = async (req, res) => {
       time: `${b.startTime} - ${b.endTime}`,
       status: b.status,
       manager: b.createdBy?.id?.fullname || "N/A",
-      managerPhone: b.createdBy?.id?.phonenumber || "N/A"
+      managerPhone: b.createdBy?.id?.phonenumber || "N/A",
+      paymentStatus: b.paymentStatus, 
     }));
 
     res.status(200).json(formattedBookings);

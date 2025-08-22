@@ -17,6 +17,7 @@ const { getTurfsByAdmin, deleteUser, getAllUsers, updateUserByAdmin, createUserB
 
 
 const { turfUpload, eventUpload } = require('../middleware/upload');
+const { createOrder, verifyPayment } = require("../controllers/paymentController");
 
 
 // Registration route for user,manager,admin
@@ -114,6 +115,8 @@ router.put('/userCancelBooking/:id', authenticateToken, userCancelBooking);
 router.post('/mgrbookturf',authenticateToken,managerBookTurf)
 
 
+router.post("/payment/order", authenticateToken,createOrder);
+router.post("/payment/verify", authenticateToken,verifyPayment);
 
 
 
